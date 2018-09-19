@@ -13,9 +13,7 @@
             height: 100%; 
             width: 30%; 
             float: left; 
-            font-family: monospace; 
-            white-space: pre-wrap;
-            border-right: 1px solid #d3d3d3;
+            background-color: #f8f8f8;
         }
         #gameDiv{
             height: 100%;
@@ -42,13 +40,20 @@
                 <block type="text_print"></block>
             </xml>
         </div>
+
         <!-- Código fonte gerado a partir dos blocos (Python, no momento) -->
-        <div id="codeDiv">#Visualização do código</div>
+        <div id="codeDiv">
+            <pre>
+                <code id="codeToHighlight" class="python"></code>
+            </pre>
+        </div>
+
         <div id="gameDiv">
             <div id="gamePreview"></div>
             <button id="runGame">Executar</button>
         </div>
     </body>
+
     <script src="./libs/blockly/blockly_uncompressed.js"></script>
     <script src="./libs/blockly/blocks/logic.js"></script>
     <script src="./libs/blockly/blocks/loops.js"></script>
@@ -68,6 +73,11 @@
     <script src="./libs/blockly/generators/python/variables.js"></script>
     <script src="./libs/blockly/generators/python/procedures.js"></script>
     <script src="./libs/blockly/msg/js/pt-br.js"></script>
+
+    <link rel="stylesheet" href="./libs/highlight/styles/github.css">
+    <script src="./libs/highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
     <script>
         /* 
         * Código criado pelo Google para redimensionar a área do blockly
@@ -105,7 +115,9 @@
         */
         workspace.addChangeListener(function() {
             let code = Blockly.Python.workspaceToCode(workspace);
-            document.getElementById('codeDiv').innerHTML = code;
+            document.getElementById('codeToHighlight').innerHTML = code;
+            hljs.initHighlighting.called = false;
+            hljs.initHighlighting();
         });
     </script>
 </html>
