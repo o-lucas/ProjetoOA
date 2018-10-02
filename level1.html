@@ -1,117 +1,114 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>Ambiente - Pesquisa OA</title>
-        <style>
-        html,body{
-            height: 100%;
-            width: 100%;
-            margin: 0 auto;
-        }
-        #codeDiv{
-            height: 100%; 
-            width: 30%; 
-            float: left; 
-            font-family: monospace; 
-            white-space: pre-wrap;
-            border-right: 1px solid #d3d3d3;
-        }
-        #gameDiv{
-            height: 100%;
-            width: 19.9%;
-            float: left;
-        }
-        #gamePreview{
-            width: 100%;
-            height: 50%;
-            background-color: black;
-        }
-        </style>
-    </head>
-    <body>
-        <div id="mainDiv" style="height: 100%; width: 50%; float: left;">
-            <div id="blocklyDiv" style="position: absolute;"></div>
-            <xml id="toolbox" style="display: none;">
-                <block type="controls_moveUp"></block>
-                <block type="controls_moveDown"></block>
-                <block type="controls_moveLeft"></block>
-                <block type="controls_moveRight"></block>
-            </xml>
-        </div>
-        <!-- Código fonte gerado a partir dos blocos (Python, no momento) -->
-        <div id="codeDiv">#Visualização do código</div>
-        <div id="gameDiv">
-            <canvas id="game"></canvas>
-            <button id="runGame">Executar</button>
-        </div>
-    </body>
-    <script src="./libs/blockly/blockly_uncompressed.js"></script>
-    <script src="./static/js/level1/controls.js"></script>
-    <script src="./libs/blockly/generators/python.js"></script>
-    <script src="./libs/blockly/generators/python/logic.js"></script>
-    <script src="./libs/blockly/generators/python/loops.js"></script>
-    <script src="./libs/blockly/generators/python/math.js"></script>
-    <script src="./libs/blockly/generators/python/text.js"></script>
-    <script src="./libs/blockly/generators/python/lists.js"></script>
-    <script src="./libs/blockly/generators/python/colour.js"></script>
-    <script src="./libs/blockly/generators/python/variables.js"></script>
-    <script src="./libs/blockly/generators/python/procedures.js"></script>
-    <script src="./libs/blockly/generators/javascript.js"></script>
-    <script src="./libs/blockly/generators/javascript/controls.js"></script>
-    <script src="./libs/blockly/msg/js/pt-br.js"></script>
+<head>
+    <meta charset="utf-8">
+    <title>Ambiente - Pesquisa OA</title>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
 
-    <script src="./static/js/tileManager.js"></script>
-    <script>
-        /* 
-        * Código criado pelo Google para redimensionar a área do blockly
-        * Ref: https://developers.google.com/blockly/guides/configure/web/resizable
-        */
-        var blocklyArea = document.getElementById('mainDiv');
-        var blocklyDiv = document.getElementById('blocklyDiv');
-        var workspace = Blockly.inject(blocklyDiv,
-            {toolbox: document.getElementById('toolbox')});
-        var onresize = function(e) {
-            // Compute the absolute coordinates and dimensions of blocklyArea.
-            var element = blocklyArea;
-            var x = 0;
-            var y = 0;
-            do {
+<body>
+    <div id="mainDiv" style="height: 100%; width: 50%; float: left;">
+        <div id="blocklyDiv" style="position: absolute;"></div>
+        <xml id="toolbox" style="display: none;">
+            <block type="controls_moveUp"></block>
+            <block type="controls_moveDown"></block>
+            <block type="controls_moveLeft"></block>
+            <block type="controls_moveRight"></block>
+            <block type="controls_if"></block>
+        </xml>
+    </div>
+    <!-- Código fonte gerado a partir dos blocos (Python, no momento) -->
+    <div id="codeDiv">            
+        <pre>
+            <code id="codeToHighlight" class="python"></code>
+        </pre>
+    </div>
+    <div id="gameDiv">
+        <canvas id="game"></canvas>
+        <button id="runGame">Executar</button>
+    </div>
+</body>
+<script src="./libs/blockly/blockly_uncompressed.js"></script>
+<script src="./static/js/level1/controls.js"></script>
+<script src="./libs/blockly/blocks/logic.js"></script>
+<script src="./libs/blockly/generators/python.js"></script>
+<script src="./libs/blockly/generators/python/controls.js"></script>
+<script src="./libs/blockly/generators/python/logic.js"></script>
+<script src="./libs/blockly/generators/python/loops.js"></script>
+<script src="./libs/blockly/generators/python/math.js"></script>
+<script src="./libs/blockly/generators/python/text.js"></script>
+<script src="./libs/blockly/generators/python/lists.js"></script>
+<script src="./libs/blockly/generators/python/colour.js"></script>
+<script src="./libs/blockly/generators/python/variables.js"></script>
+<script src="./libs/blockly/generators/python/procedures.js"></script>
+<script src="./libs/blockly/generators/javascript.js"></script>
+<script src="./libs/blockly/generators/javascript/controls.js"></script>
+<script src="./libs/blockly/generators/javascript/logic.js"></script>
+<script src="./libs/blockly/msg/js/pt-br.js"></script>
+
+<script src="./static/js/tileManager.js"></script>
+<script src="./static/js/BlockHighlighter.js"></script>
+
+<link rel="stylesheet" href="./libs/highlight/styles/github.css">
+<script src="./libs/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<script>
+    /* 
+    * Código criado pelo Google para redimensionar a área do blockly
+    * Ref: https://developers.google.com/blockly/guides/configure/web/resizable
+    */
+    var blocklyArea = document.getElementById('mainDiv');
+    var blocklyDiv = document.getElementById('blocklyDiv');
+    var workspace = Blockly.inject(blocklyDiv,
+        { toolbox: document.getElementById('toolbox') });
+    var onresize = function (e) {
+        // Compute the absolute coordinates and dimensions of blocklyArea.
+        var element = blocklyArea;
+        var x = 0;
+        var y = 0;
+        do {
             x += element.offsetLeft;
             y += element.offsetTop;
             element = element.offsetParent;
-            } while (element);
-            // Position blocklyDiv over blocklyArea.
-            blocklyDiv.style.left = x + 'px';
-            blocklyDiv.style.top = y + 'px';
-            blocklyDiv.style.width = blocklyArea.offsetWidth + 'px';
-            blocklyDiv.style.height = blocklyArea.offsetHeight + 'px';
-            Blockly.svgResize(workspace);
-        };
-        window.addEventListener('resize', onresize, false);
-        onresize();
+        } while (element);
+        // Position blocklyDiv over blocklyArea.
+        blocklyDiv.style.left = x + 'px';
+        blocklyDiv.style.top = y + 'px';
+        blocklyDiv.style.width = blocklyArea.offsetWidth + 'px';
+        blocklyDiv.style.height = blocklyArea.offsetHeight + 'px';
         Blockly.svgResize(workspace);
+    };
+    window.addEventListener('resize', onresize, false);
+    onresize();
+    Blockly.svgResize(workspace);
 
-        /* 
-        * Adiciona um listener de eventos a cada mudança ao ambiente do Blockly para atualizar o código fonte
-        * Talvez haja algum evento melhor pra isso?
-        * Ref: https://developers.google.com/blockly/guides/configure/web/events
-        */
-        workspace.addChangeListener(function() {
+    /* 
+    * Adiciona um listener de eventos a cada mudança ao ambiente do Blockly para atualizar o código fonte
+    * Talvez haja algum evento melhor pra isso?
+    * Ref: https://developers.google.com/blockly/guides/configure/web/events
+    */
+
+    workspace.addChangeListener(function () {
+        let code = Blockly.Python.workspaceToCode(workspace);
+        
+        hljs.initHighlighting.called = false;
+        hljs.initHighlighting();
+
+        let selectedBlock = Blockly.selected;
+        document.getElementById('codeToHighlight').innerHTML = generateHighlightableCode(code, selectedBlock);
+    });
+
+    document.getElementById("runGame").onclick = function () {
+        try {
+            reset();
             let code = Blockly.JavaScript.workspaceToCode(workspace);
-            document.getElementById('codeDiv').innerHTML = code;
-        });
+            eval(code);
+        }
+        catch (e) {
+            console.log(e);
+        }
+    };
+</script>
 
-        document.getElementById("runGame").onclick = function(){
-            try{
-                reset();
-                let code = Blockly.JavaScript.workspaceToCode(workspace);
-                console.log(code);
-                eval(code);
-            }
-            catch(e){
-                console.log(e);
-            }
-        };
-    </script>
 </html>
