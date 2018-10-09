@@ -24,3 +24,15 @@ html, body{
     height: 50%;
     background-color: black;
 }
+
+.navbar{
+    background-color: #458590;
+}
+
+.nav-link{
+    color: #FFF;
+}
+
+.nav-link:hover{
+    color: #7baca7;
+}

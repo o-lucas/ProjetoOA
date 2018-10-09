@@ -1,114 +1,143 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
-    <title>Ambiente - Pesquisa OA</title>
+    <title>Nível 1 - Ambiente - Pesquisa OA</title>
     <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <style>
+        .card>button {
+            padding: 5px;
+            border-bottom-left-radius: 2px;
+            border-bottom-right-radius: 2px;
+            color: #FFF;
+            border: none;
+        }
+
+        .level-1 {
+            background-color: #A7DDA7;
+            color: #398689;
+        }
+
+        button{
+            background-color: #398689;
+        }
+    </style>
 </head>
 
 <body>
-    <div id="mainDiv" style="height: 100%; width: 50%; float: left;">
-        <div id="blocklyDiv" style="position: absolute;"></div>
-        <xml id="toolbox" style="display: none;">
-            <block type="controls_moveUp"></block>
-            <block type="controls_moveDown"></block>
-            <block type="controls_moveLeft"></block>
-            <block type="controls_moveRight"></block>
-            <block type="controls_if"></block>
-        </xml>
+    <div class="container-fluid p-0">
+        <nav class="navbar navbar-expand-lg m-0">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Início</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="levels.html">Desafios</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tutorial.html">Tutorial</span></a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
     </div>
-    <!-- Código fonte gerado a partir dos blocos (Python, no momento) -->
-    <div id="codeDiv">            
-        <pre>
-            <code id="codeToHighlight" class="python"></code>
-        </pre>
-    </div>
-    <div id="gameDiv">
-        <canvas id="game"></canvas>
-        <button id="runGame">Executar</button>
+    <div class="container">
+        <div class="row py-3">
+
+            <div class="col-sm">
+                <div class="card level-1">
+                    <div class="card-body">
+                        <h5>Desafio 1</h4>
+                            <hr>
+                            <div>
+                                Descrição desafio 1
+                            </div>
+                    </div>
+                    <button>Continuar →</button>
+                </div>
+            </div>
+
+            <div class="col-sm">
+                <div class="card level-1">
+                    <div class="card-body">
+                        <h5>Nível 2</h5>
+                        <hr>
+                        <div>
+                            Descrição nível 2
+                        </div>
+                    </div>
+                    <button>Continuar →</button>
+                </div>
+            </div>
+
+            <div class="col-sm">
+                <div class="card level-1">
+                    <div class="card-body">
+                        <h5>Desafio 3</h5>
+                        <hr>
+                        Descrição desafio 3
+                    </div>
+                    <button>Continuar →</button>
+                </div>
+
+            </div>
+
+            <div class="col-sm">
+                <div class="card level-1">
+                    <div class="card-body">
+                        <h5>Desafio 4</h5>
+                        <hr>
+                        Descrição desafio 4
+                    </div>
+                    <button>Continuar →</button>
+                </div>
+            </div>
+
+            <div class="col-sm">
+                <div class="card level-1">
+                    <div class="card-body">
+                        <h5>Desafio 5</h5>
+                        <hr>
+                        Descrição desafio 5
+                    </div>
+                    <button>Continuar →</button>
+                </div>
+            </div>
+
+            <div class="col-sm">
+                <div class="card level-1">
+                    <div class="card-body">
+                        <h5>Desafio 6</h5>
+                        <hr>
+                        Descrição desafio 6
+                    </div>
+                    <button>Continuar →</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="card level-1">
+                    <div class="card-body">
+                        <h3>Desafio final</h3>
+                        <hr>
+                        Descrição desafio final
+                    </div>
+                    <button class="float-right">Aventurar-se ⚔</button>
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+
+            </div>
+        </div>
     </div>
 </body>
-<script src="./libs/blockly/blockly_uncompressed.js"></script>
-<script src="./static/js/level1/controls.js"></script>
-<script src="./libs/blockly/blocks/logic.js"></script>
-<script src="./libs/blockly/generators/python.js"></script>
-<script src="./libs/blockly/generators/python/controls.js"></script>
-<script src="./libs/blockly/generators/python/logic.js"></script>
-<script src="./libs/blockly/generators/python/loops.js"></script>
-<script src="./libs/blockly/generators/python/math.js"></script>
-<script src="./libs/blockly/generators/python/text.js"></script>
-<script src="./libs/blockly/generators/python/lists.js"></script>
-<script src="./libs/blockly/generators/python/colour.js"></script>
-<script src="./libs/blockly/generators/python/variables.js"></script>
-<script src="./libs/blockly/generators/python/procedures.js"></script>
-<script src="./libs/blockly/generators/javascript.js"></script>
-<script src="./libs/blockly/generators/javascript/controls.js"></script>
-<script src="./libs/blockly/generators/javascript/logic.js"></script>
-<script src="./libs/blockly/msg/js/pt-br.js"></script>
-
-<script src="./static/js/tileManager.js"></script>
-<script src="./static/js/BlockHighlighter.js"></script>
-
-<link rel="stylesheet" href="./libs/highlight/styles/github.css">
-<script src="./libs/highlight/highlight.pack.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
-
-<script>
-    /* 
-    * Código criado pelo Google para redimensionar a área do blockly
-    * Ref: https://developers.google.com/blockly/guides/configure/web/resizable
-    */
-    var blocklyArea = document.getElementById('mainDiv');
-    var blocklyDiv = document.getElementById('blocklyDiv');
-    var workspace = Blockly.inject(blocklyDiv,
-        { toolbox: document.getElementById('toolbox') });
-    var onresize = function (e) {
-        // Compute the absolute coordinates and dimensions of blocklyArea.
-        var element = blocklyArea;
-        var x = 0;
-        var y = 0;
-        do {
-            x += element.offsetLeft;
-            y += element.offsetTop;
-            element = element.offsetParent;
-        } while (element);
-        // Position blocklyDiv over blocklyArea.
-        blocklyDiv.style.left = x + 'px';
-        blocklyDiv.style.top = y + 'px';
-        blocklyDiv.style.width = blocklyArea.offsetWidth + 'px';
-        blocklyDiv.style.height = blocklyArea.offsetHeight + 'px';
-        Blockly.svgResize(workspace);
-    };
-    window.addEventListener('resize', onresize, false);
-    onresize();
-    Blockly.svgResize(workspace);
-
-    /* 
-    * Adiciona um listener de eventos a cada mudança ao ambiente do Blockly para atualizar o código fonte
-    * Talvez haja algum evento melhor pra isso?
-    * Ref: https://developers.google.com/blockly/guides/configure/web/events
-    */
-
-    workspace.addChangeListener(function () {
-        let code = Blockly.Python.workspaceToCode(workspace);
-        
-        hljs.initHighlighting.called = false;
-        hljs.initHighlighting();
-
-        let selectedBlock = Blockly.selected;
-        document.getElementById('codeToHighlight').innerHTML = generateHighlightableCode(code, selectedBlock);
-    });
-
-    document.getElementById("runGame").onclick = function () {
-        try {
-            reset();
-            let code = Blockly.JavaScript.workspaceToCode(workspace);
-            eval(code);
-        }
-        catch (e) {
-            console.log(e);
-        }
-    };
-</script>
 
 </html>
