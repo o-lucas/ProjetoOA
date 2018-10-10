@@ -28,6 +28,7 @@
         <button id="runGame">Executar</button>
     </div>
 </body>
+
 <script src="./libs/blockly/blockly_uncompressed.js"></script>
 <script src="./static/js/level1/controls.js"></script>
 <script src="./libs/blockly/blocks/logic.js"></script>
@@ -46,11 +47,14 @@
 <script src="./libs/blockly/generators/javascript/logic.js"></script>
 <script src="./libs/blockly/msg/js/pt-br.js"></script>
 
-<script src="./static/js/tileManager.js"></script>
 <script src="./static/js/BlockHighlighter.js"></script>
+
+<script src="./static/js/tileManager.js"></script>
+<script src="./libs/jsinterpreter/acorn_interpreter.js"></script>
 
 <link rel="stylesheet" href="./libs/highlight/styles/github.css">
 <script src="./libs/highlight/highlight.pack.js"></script>
+
 <script>hljs.initHighlightingOnLoad();</script>
 
 <script>
@@ -99,11 +103,65 @@
         document.getElementById('codeToHighlight').innerHTML = generateHighlightableCode(code, selectedBlock);
     });
 
+    // Faz um bloco brilhar
+    function highlightBlock(id)
+    {
+        workspace.highlightBlock(id);
+    }
+
     document.getElementById("runGame").onclick = function () {
         try {
             reset();
+
+            // A cada execução de um bloco, chama highlightBlock(idDoBloco)
+            Blockly.JavaScript.STATEMENT_PREFIX = 'highlightBlock(%1);\n';
+            Blockly.JavaScript.addReservedWords('highlightBlock');
+
             let code = Blockly.JavaScript.workspaceToCode(workspace);
-            eval(code);
+
+            // https://neil.fraser.name/software/JS-Interpreter/docs.html
+            var initFunc = function(interpreter, scope) {
+                blockHighlightWrapper = function(id) {
+                    return workspace.highlightBlock(id);
+                }
+
+                interpreter.setProperty(
+                    scope,
+                    'moveUp',
+                    interpreter.createNativeFunction(moveUp)
+                );
+                interpreter.setProperty(
+                    scope,
+                    'moveDown',
+                    interpreter.createNativeFunction(moveDown)
+                );
+                interpreter.setProperty(
+                    scope,
+                    'moveLeft',
+                    interpreter.createNativeFunction(moveLeft)
+                );
+                interpreter.setProperty(
+                    scope,
+                    'moveRight',
+                    interpreter.createNativeFunction(moveRight)
+                );
+                interpreter.setProperty(
+                    scope,
+                    'highlightBlock',
+                    interpreter.createNativeFunction(blockHighlightWrapper)
+                );
+            };
+
+            let interpreter = new Interpreter(code, initFunc);
+
+            function nextStep()
+            {
+                if(interpreter.step())
+                    window.setTimeout(nextStep, 50);
+                }
+            }
+
+            nextStep();
         }
         catch (e) {
             console.log(e);
