@@ -52,9 +52,9 @@
 <script src="./static/js/tileManager.js"></script>
 <script src="./libs/jsinterpreter/acorn_interpreter.js"></script>
 
+<!--Highlight.js https://highlightjs.org/usage -->
 <link rel="stylesheet" href="./libs/highlight/styles/github.css">
 <script src="./libs/highlight/highlight.pack.js"></script>
-
 <script>hljs.initHighlightingOnLoad();</script>
 
 <script>
@@ -95,12 +95,13 @@
 
     workspace.addChangeListener(function () {
         let code = Blockly.Python.workspaceToCode(workspace);
-        
+       
+        let selectedBlock = Blockly.selected;
+        document.getElementById('codeToHighlight').innerHTML = generateHighlightableCode(code, selectedBlock);
+
         hljs.initHighlighting.called = false;
         hljs.initHighlighting();
 
-        let selectedBlock = Blockly.selected;
-        document.getElementById('codeToHighlight').innerHTML = generateHighlightableCode(code, selectedBlock);
     });
 
     // Faz um bloco brilhar
