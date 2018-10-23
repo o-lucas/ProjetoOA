@@ -190,6 +190,7 @@
     var isMoving = false;
     var destinationX;
     var destinationY;
+    var destination;
     
     var game = new Phaser.Game(config);
 
@@ -266,6 +267,11 @@
             '../../assets/char.png', 
             { frameWidth: TILE_WIDTH, frameHeight: TILE_HEIGHT }
         );
+        this.load.spritesheet(
+            'destination',
+            '../../assets/destination.png',
+            { frameWidth: TILE_WIDTH, frameHeight: TILE_HEIGHT }
+        );
     }
     
     function create ()
@@ -304,7 +310,13 @@
             null,
             this
         );
-    
+
+        destination = this.physics.add.sprite(
+            PLAYER_END_POINT.x,
+            PLAYER_END_POINT.y,
+            'destination'
+        );
+
         this.anims.create({
             key: 'left',
             frames: this.anims.generateFrameNumbers('char', { start: 3, end: 5 }),
@@ -339,6 +351,13 @@
             repeat: -1
         });
 
+        this.anims.create({
+            key: 'reduce',
+            frames: this.anims.generateFrameNumbers('destination', { start: 0, end: 3 }),
+            frameRate: 8,
+            repeat: -1
+        });
+
         player.anims.play('turn', true);
     }
     
@@ -356,6 +375,8 @@
             if(hasPlayerWon())
                 win();
         }
+
+        destination.anims.play('reduce', true);
     }
 
 </script>

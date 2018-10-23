@@ -50,3 +50,15 @@ Blockly.Blocks["controls_moveRight"] = {
         });
     }
 };
+
+Blockly.Blocks["controls_takeCoin"] = {
+    init: function(){
+        this.jsonInit({
+            "message0": "Pegar moeda",
+            "previousStatement": null,
+            "nextStatement": null,
+            "colour": 290,
+            "tooltip": "Pega a moeda abaixo do personagem."
+        });
+    }
+};

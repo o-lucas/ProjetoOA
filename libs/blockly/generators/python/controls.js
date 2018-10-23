@@ -13,3 +13,7 @@ Blockly.Python["controls_moveLeft"] = function(block){
 Blockly.Python["controls_moveRight"] = function(block){
     return 'moveRight()\n';
 }
+
+Blockly.Python["controls_takeCoin"] = function(block){
+    return 'takeCoin();\n';
+}

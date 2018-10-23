@@ -171,6 +171,7 @@
     const MAP_HEIGHT = TILE_HEIGHT * MAP_ROWS;
     
     const PLAYER_SPAWN_POINT = {x: 8*32-16, y: 0+16};
+    const PLAYER_END_POINT = {x: 1*32-16, y: 8*32-16};
     const PLAYER_SPEED = 120;
         
     var config = {
@@ -195,6 +196,7 @@
     var isMoving = false;
     var destinationX;
     var destinationY;
+    var destination;
     
     const COINS_IN_MAP = 6;
     const COINS_POS = [
@@ -242,11 +244,7 @@
 				coin.disableBody(true, true);
 				coinsCollected++;
 			}
-			else
-			{
-			
-			}
-			
+
 			coinNumber++;
 		});
 	}
@@ -308,8 +306,13 @@
     
     function preload ()
     {
-        this.load.image('level', '../../assets/icy.png');
+        this.load.image('level', '../../assets/icy2.png');
         this.load.image('coin', '../../assets/coin.png');
+        this.load.spritesheet(
+            'destination', 
+            '../../assets/destination.png', 
+            { frameWidth: TILE_WIDTH, frameHeight: TILE_HEIGHT }
+        );
         this.load.spritesheet(
             'char', 
             '../../assets/char.png', 
@@ -360,6 +363,12 @@
             null,
             this
         );
+
+        destination = this.physics.add.sprite(
+            PLAYER_END_POINT.x,
+            PLAYER_END_POINT.y,
+            'destination'
+        );
     
         this.anims.create({
             key: 'left',
@@ -395,17 +404,22 @@
             repeat: -1
         });
 
+        this.anims.create({
+            key: 'reduce',
+            frames: this.anims.generateFrameNumbers('destination', { start: 0, end: 3 }),
+            frameRate: 9,
+            repeat: -1
+        });
+
         player.anims.play('turn', true);
     }
     
     function update ()
     {
-		console.log(`x: ${player.x}, y: ${player.y}`);
-		
         if(
             (isMoving)
-            && (player.x >= destinationX)
-            && (player.y >= destinationY)
+            && (player.x === destinationX)
+            && (player.y === destinationY)
         )
         {
             player.setVelocity(0, 0);
@@ -414,6 +428,8 @@
             if(hasPlayerWon())
                 win();
         }
+
+        destination.anims.play('reduce', true);
     }
 
 </script>
