@@ -102,6 +102,8 @@
     document.getElementById("runGame").onclick = function () {
         try {
             reset();
+			
+			document.getElementById("runGame").innerHTML = "Recomeçar";
 
             // A cada execução de um bloco, chama highlightBlock(idDoBloco)
             Blockly.JavaScript.STATEMENT_PREFIX = 'highlightBlock(%1);\n';
@@ -147,7 +149,7 @@
             function nextStep()
             {
                 if(interpreter.step())
-                    window.setTimeout(nextStep, 50);
+                    pidBlockly = window.setTimeout(nextStep, 50);
             }
 
             nextStep();
@@ -165,8 +167,8 @@
     const MAP_WIDTH = TILE_WIDTH * MAP_COLS;
     const MAP_HEIGHT = TILE_HEIGHT * MAP_ROWS;
     
-    const PLAYER_SPAWN_POINT = {x: 3*32-16, y: 4*32-16};
-    const PLAYER_END_POINT = {x: 6*32-16, y: 4*32-16};
+    const PLAYER_SPAWN_POINT = {x: 0*32-16, y: 0*32-16};
+    const PLAYER_END_POINT = {x: 8*32-16, y: 8*32-16};
     const PLAYER_SPEED = 120;
         
     var config = {
@@ -185,10 +187,13 @@
         }
     };
     
+	var pidBlockly;
+	
     var player;
     var isMoving = false;
     var destinationX;
     var destinationY;
+	var destination;
     
     var game = new Phaser.Game(config);
 
@@ -204,6 +209,8 @@
 
     function reset()
     {
+		window.clearTimeout(pidBlockly);
+	
         player.x = PLAYER_SPAWN_POINT.x;
         player.y = PLAYER_SPAWN_POINT.y;
         player.anims.play('turn', true);
@@ -258,6 +265,11 @@
     function preload ()
     {
         this.load.image('level', '../../assets/forest.png');
+		this.load.spritesheet(
+			'destination',
+			'../../assets/destination.png',
+			{ frameWidth: TILE_WIDTH, frameHeight: TILE_HEIGHT }
+		);
         this.load.spritesheet(
             'char', 
             '../../assets/char.png', 
@@ -268,14 +280,14 @@
     function create ()
     {
         const level = [
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 2, 1, 1, 3, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0]
+            [2, 0, 0, 0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0, 0, 0, 0],
+            [1, 1, 1, 1, 1, 1, 1, 1],
+            [0, 0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 0, 3]
         ];
     
         const map = this.make.tilemap({
@@ -293,7 +305,7 @@
             PLAYER_SPAWN_POINT.y,
             'dude'
         );
-        player.setCollideWorldBounds(true);
+        player.setCollideWorldBounds(true);	
         this.physics.add.collider(
             player, 
             layer, 
@@ -301,6 +313,12 @@
             null,
             this
         );
+		
+		destination = this.physics.add.sprite(
+			PLAYER_END_POINT.x,
+			PLAYER_END_POINT.y,
+			'destination'
+		);
     
         this.anims.create({
             key: 'left',
@@ -335,6 +353,20 @@
             frameRate: 10,
             repeat: -1
         });
+		
+		this.anims.create({
+			key: 'grow',
+			frames: this.anims.generateFrameNumbers('destination', { start: 0, end: 3 }),
+			frameRate: 8,
+			repeat: -1
+		});
+		
+		this.anims.create({
+			key: 'reduce',
+			frames: this.anims.generateFrameNumbers('destination', { start: 3, end: 0 }),
+			frameRate: 3,
+			repeat: -1
+		});
 
         player.anims.play('turn', true);
     }
@@ -353,6 +385,8 @@
             if(hasPlayerWon())
                 win();
         }
+		
+		destination.anims.play('grow', true);
     }
 
 </script>
