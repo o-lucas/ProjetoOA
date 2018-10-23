@@ -4,11 +4,36 @@
         <meta charset="utf-8">
         <title>Ambiente - Pesquisa OA</title>
         <style>
+            @font-face{
+                font-family: 'Bebas Neue';
+                src: url('assets/fonts/BebasNeue.otf');
+            }
+
+            h1{
+                font-family: 'Bebas Neue';
+                color: #447b98;
+                font-size: 96px;
+                margin: 0;
+            }
+
+            span{
+                font-family: sans-serif;
+                color: #747373;
+            }
+
+            button{
+                border: 0;
+                background-color: #398689;
+                font-size: 16px;
+                color: #FFF;
+                border-radius: 5px;
+                padding: 10px;
+            }
         </style>
     </head>
     <body> 
-        <h3>Bem-vindo!</h3>
-        <h5>Para prosseguir, faça login com a sua conta Unigranrio</h5>
-        <button onclick="window.location.href='tutorial.html'">Login com Google</button>
+        <h1>Bem-vindo!</h1>
+        <span>Este é um ambiente interativo com foco no aprendizado de raciocínio lógico e programação.</span>
+        <button onclick="window.location.href='tutorial.html'">Começar!</button>
     </body>
 </html>
