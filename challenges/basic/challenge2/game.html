@@ -146,7 +146,7 @@
             function nextStep()
             {
                 if(interpreter.step())
-                    window.setTimeout(nextStep, 50);
+                    pidBlockly = window.setTimeout(nextStep, 50);
             }
 
             nextStep();
@@ -167,7 +167,7 @@
     const PLAYER_SPAWN_POINT = {x: 6*32-16, y: 0*32-16};
     const PLAYER_END_POINT = {x: 6*32-16, y: 8*32-16};
     const PLAYER_SPEED = 120;
-        
+
     var config = {
         type: Phaser.AUTO,
         width: MAP_WIDTH,
@@ -184,6 +184,8 @@
         }
     };
     
+	var pidBlockly;
+	
     var player;
     var isMoving = false;
     var destinationX;
@@ -203,6 +205,8 @@
 
     function reset()
     {
+		window.clearTimeout(pidBlockly);
+	
         player.x = PLAYER_SPAWN_POINT.x;
         player.y = PLAYER_SPAWN_POINT.y;
         player.anims.play('turn', true);
