@@ -67,7 +67,6 @@
             element = element.offsetParent;
         } while (element);
         // Position blocklyDiv over blocklyArea.
-        
         blocklyDiv.style.left = x + 'px';
         blocklyDiv.style.top = y + 'px';
         blocklyDiv.style.width = blocklyArea.offsetWidth + 'px';
@@ -165,9 +164,9 @@
     const MAP_WIDTH = TILE_WIDTH * MAP_COLS;
     const MAP_HEIGHT = TILE_HEIGHT * MAP_ROWS;
     
-    const PLAYER_SPAWN_POINT = {x: 3*32-16, y: 4*32-16};
-    const PLAYER_END_POINT = {x: 6*32-16, y: 4*32-16};
+    const PLAYER_SPAWN_POINT = {x: 8*32-16, y: 0+16};
     const PLAYER_SPEED = 120;
+
         
     var config = {
         type: Phaser.AUTO,
@@ -190,11 +189,23 @@
     var destinationX;
     var destinationY;
     
+    const COINS_IN_MAP = 6;
+    const COINS_POS = [
+        {x: 1*32 - 16, y: 1*32 - 16},
+        {x: 1*32 - 16, y: 8*32 - 16},
+        {x: 8*32 - 16, y: 8*32 - 16},
+        {x: 5*32 - 16, y: 8*32 - 16},
+        {x: 3*32 - 16, y: 4*32 - 16},
+        {x: 5*32 - 16, y: 6*32 - 16}
+    ];
+    var coins;
+    var coinsCollected = 0;
+
     var game = new Phaser.Game(config);
 
     function hasPlayerWon()
     {
-        return player.x == PLAYER_END_POINT.x && player.y == PLAYER_END_POINT.y;
+        return coinsCollected == COINS_IN_MAP;
     }
 
     function win()
@@ -202,11 +213,30 @@
         alert('!!!');
     }
 
+    function onPlayerCollectCoin(player, coin)
+    {
+        coin.disableBody(true, true);
+        coinsCollected++;
+    }
+
+    function spawnCoins()
+    {
+        let coinNumber = 0;
+        coins.children.iterate(function(child) {
+            child.x = COINS_POS[coinNumber].x;
+            child.y = COINS_POS[coinNumber].y;
+            child.enableBody(true, child.x, child.y, true, true);
+            coinNumber++;
+        });
+    }
+
     function reset()
     {
         player.x = PLAYER_SPAWN_POINT.x;
         player.y = PLAYER_SPAWN_POINT.y;
         player.anims.play('turn', true);
+        spawnCoins();
+        coinsCollected = 0;
     }
 
     function onPlayerCollideWithLayer(player, layer)
@@ -257,7 +287,8 @@
     
     function preload ()
     {
-        this.load.image('level', '../../assets/forest.png');
+        this.load.image('level', '../../assets/icy.png');
+        this.load.image('coin', '../../assets/coin.png');
         this.load.spritesheet(
             'char', 
             '../../assets/char.png', 
@@ -268,14 +299,14 @@
     function create ()
     {
         const level = [
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 2, 1, 1, 3, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0]
+            [1, 0, 0, 0, 0, 0, 0, 2],
+            [1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 1, 0, 0, 0, 0, 1],
+            [1, 0, 1, 1, 1, 1, 0, 1],
+            [1, 0, 0, 0, 1, 0, 0, 1],
+            [1, 0, 0, 0, 1, 0, 0, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1]
         ];
     
         const map = this.make.tilemap({
@@ -287,6 +318,13 @@
         const tiles = map.addTilesetImage('level');
         const layer = map.createStaticLayer(0, tiles, 0, 0);
         layer.setCollision(0);
+
+        coins = this.physics.add.group({
+            key: 'coin',
+            repeat: COINS_IN_MAP-1
+        });
+
+        spawnCoins();
     
         player = this.physics.add.sprite(
             PLAYER_SPAWN_POINT.x,
@@ -298,6 +336,13 @@
             player, 
             layer, 
             onPlayerCollideWithLayer, 
+            null,
+            this
+        );
+        this.physics.add.overlap(
+            player, 
+            coins, 
+            onPlayerCollectCoin, 
             null,
             this
         );
