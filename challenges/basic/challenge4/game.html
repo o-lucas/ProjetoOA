@@ -14,6 +14,7 @@
             <block type="controls_moveDown"></block>
             <block type="controls_moveLeft"></block>
             <block type="controls_moveRight"></block>
+			<block type="controls_takeCoin"></block>
         </xml>
     </div>
     <!-- Código fonte gerado a partir dos blocos (Python, no momento) -->
@@ -134,6 +135,11 @@
                     'moveRight',
                     interpreter.createNativeFunction(moveRight)
                 );
+				interpreter.setProperty(
+                    scope,
+                    'takeCoin',
+                    interpreter.createNativeFunction(takeCoin)
+                );
                 interpreter.setProperty(
                     scope,
                     'highlightBlock',
@@ -146,7 +152,7 @@
             function nextStep()
             {
                 if(interpreter.step())
-                    window.setTimeout(nextStep, 50);
+                    pidBlockly = window.setTimeout(nextStep, 50);
             }
 
             nextStep();
@@ -166,7 +172,6 @@
     
     const PLAYER_SPAWN_POINT = {x: 8*32-16, y: 0+16};
     const PLAYER_SPEED = 120;
-
         
     var config = {
         type: Phaser.AUTO,
@@ -183,6 +188,8 @@
             update: update
         }
     };
+	
+	var pidBlockly;
     
     var player;
     var isMoving = false;
@@ -213,14 +220,10 @@
         alert('!!!');
     }
 
-    function onPlayerCollectCoin(player, coin)
-    {
-        coin.disableBody(true, true);
-        coinsCollected++;
-    }
-
     function spawnCoins()
     {
+		window.clearTimeout(pidBlockly);
+	
         let coinNumber = 0;
         coins.children.iterate(function(child) {
             child.x = COINS_POS[coinNumber].x;
@@ -229,6 +232,24 @@
             coinNumber++;
         });
     }
+	
+	function takeCoin()
+	{
+		let coinNumber;
+		coins.children.iterate(function(coin) {
+			if((player.x === coin.x) && (player.y === coin.y))
+			{
+				coin.disableBody(true, true);
+				coinsCollected++;
+			}
+			else
+			{
+			
+			}
+			
+			coinNumber++;
+		});
+	}
 
     function reset()
     {
@@ -306,7 +327,7 @@
             [1, 0, 1, 1, 1, 1, 0, 1],
             [1, 0, 0, 0, 1, 0, 0, 1],
             [1, 0, 0, 0, 1, 0, 0, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1]
+            [3, 1, 1, 1, 1, 1, 1, 1]
         ];
     
         const map = this.make.tilemap({
@@ -336,13 +357,6 @@
             player, 
             layer, 
             onPlayerCollideWithLayer, 
-            null,
-            this
-        );
-        this.physics.add.overlap(
-            player, 
-            coins, 
-            onPlayerCollectCoin, 
             null,
             this
         );
@@ -386,10 +400,12 @@
     
     function update ()
     {
+		console.log(`x: ${player.x}, y: ${player.y}`);
+		
         if(
             (isMoving)
-            && (player.x == destinationX)
-            && (player.y == destinationY)
+            && (player.x >= destinationX)
+            && (player.y >= destinationY)
         )
         {
             player.setVelocity(0, 0);
