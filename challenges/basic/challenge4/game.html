@@ -306,8 +306,12 @@
     
     function preload ()
     {
-        this.load.image('level', '../../assets/icy2.png');
-        this.load.image('coin', '../../assets/coin.png');
+        this.load.image('level', '../../assets/icy3.png');
+        this.load.spritesheet(
+            'coin',
+            '../../assets/coin.png',
+            { frameWidth: TILE_WIDTH, frameHeight: TILE_HEIGHT }
+        );
         this.load.spritesheet(
             'destination', 
             '../../assets/destination.png', 
@@ -405,9 +409,16 @@
         });
 
         this.anims.create({
-            key: 'reduce',
-            frames: this.anims.generateFrameNumbers('destination', { start: 0, end: 3 }),
-            frameRate: 9,
+            key: 'point',
+            frames: this.anims.generateFrameNumbers('destination', { start: 0, end: 7 }),
+            frameRate: 8,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'rotate',
+            frames: this.anims.generateFrameNumbers('coin', { start: 0, end: 5 }),
+            frameRate: 10,
             repeat: -1
         });
 
@@ -429,7 +440,8 @@
                 win();
         }
 
-        destination.anims.play('reduce', true);
+        destination.anims.play('point', true);
+        coins.playAnimation('rotate', true);
     }
 
 </script>

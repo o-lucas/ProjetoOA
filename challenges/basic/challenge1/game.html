@@ -264,7 +264,7 @@
     
     function preload ()
     {
-        this.load.image('level', '../../assets/forest.png');
+        this.load.image('level', '../../assets/forest2.png');
 		this.load.spritesheet(
 			'destination',
 			'../../assets/destination.png',
@@ -272,7 +272,7 @@
 		);
         this.load.spritesheet(
             'char', 
-            '../../assets/personagem.png', 
+            '../../assets/char.png', 
             { frameWidth: TILE_WIDTH, frameHeight: TILE_HEIGHT }
         );
     }
@@ -355,19 +355,12 @@
         });
 		
 		this.anims.create({
-			key: 'grow',
-			frames: this.anims.generateFrameNumbers('destination', { start: 0, end: 3 }),
+			key: 'point',
+			frames: this.anims.generateFrameNumbers('destination', { start: 0, end: 7 }),
 			frameRate: 8,
 			repeat: -1
 		});
 		
-		this.anims.create({
-			key: 'reduce',
-			frames: this.anims.generateFrameNumbers('destination', { start: 3, end: 0 }),
-			frameRate: 3,
-			repeat: -1
-		});
-
         player.anims.play('turn', true);
     }
     
@@ -386,7 +379,7 @@
                 win();
         }
 		
-		destination.anims.play('grow', true);
+		destination.anims.play('point', true);
     }
 
 </script>
