@@ -125,12 +125,12 @@ Blockly.Blocks["logic_coinValue_equals_number"] = {
                 "type": "field_dropdown",
                 "name": "operation",
                 "options": [
-                  ["for igual à", "EQ"],
-                  ["não for igual à", "NEQ"],
-                  ["for menor que", "LT"],
-                  ["for menor ou igual à", "LTE"],
-                  ["for maior que", "GT"],
-                  ["for maior ou igual à", "GTE"]
+                  ["=", "EQ"],
+                  ["≠", "NEQ"],
+                  ["<", "LT"],
+                  ["≤", "LTE"],
+                  [">", "GT"],
+                  ["≥", "GTE"]
                 ]
               },
               {
