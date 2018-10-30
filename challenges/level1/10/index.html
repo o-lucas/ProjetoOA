@@ -119,12 +119,12 @@
         </xml>
     </div>
     <!-- Código fonte gerado a partir dos blocos (Python, no momento) -->
-    <div id="codeDiv">
+    <div id="codeDiv" style="height: 100%; width: 30%; float: left;">
         <pre>
             <code id="codeToHighlight" class="python"></code>
         </pre>
     </div>
-    <div id="gameDiv">
+    <div id="gameDiv" style="height: 100%; width: 18%; float: left;">
         <div id="game"></div>
         <button id="runGame">Executar</button>
         <div id="helper">
@@ -138,7 +138,7 @@
     </div>
 </body>
 
-<script src="../../../libs/phaser/dist/phaser.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/phaser@3.15.1/dist/phaser.min.js"></script>
 
 <script src="../../../libs/blockly/blockly_uncompressed.js"></script>
 <script src="./js/controls.js"></script>
@@ -279,7 +279,7 @@
         var objects = map.createStaticLayer('Objects', market);
         var food = map.createStaticLayer('Food', market);
 
-        this.cameras.main.setZoom(.4);
+        this.cameras.main.setZoom(.45);
         this.cameras.main.centerOn(terrain.width / 2, terrain.height / 2);
 
         player = this.physics.add.sprite(
