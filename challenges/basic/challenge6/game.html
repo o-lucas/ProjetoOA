@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html>
 <head>
     <meta charset="utf-8">
@@ -10,10 +10,14 @@
     <div id="mainDiv" style="height: 100%; width: 50%; float: left;">
         <div id="blocklyDiv" style="position: absolute;"></div>
         <xml id="toolbox" style="display: none;">
-            <block type="controls_moveUp"></block>
-            <block type="controls_moveDown"></block>
-            <block type="controls_moveLeft"></block>
-            <block type="controls_moveRight"></block>
+            <block type="controls_moveUpWithParameter"></block>
+            <block type="controls_moveDownWithParameter"></block>
+            <block type="controls_moveLeftWithParameter"></block>
+            <block type="controls_moveRightWithParameter"></block>
+            <block type="math_number"></block>
+            <block type="controls_takeCoin"></block>
+            <block type="logic_if"></block>
+            <block type="logic_coinValue_equals_number"></block>
         </xml>
     </div>
     <!-- Código fonte gerado a partir dos blocos (Python, no momento) -->
@@ -32,10 +36,16 @@
 
 <script src="../../../libs/blockly/blockly_uncompressed.js"></script>
 <script src="../../../static/js/level1/controls.js"></script>
+<script src="../../../static/js/level1/logic.js"></script>
+<script src="../../../static/js/level1/variable.js"></script>
 <script src="../../../libs/blockly/generators/python.js"></script>
 <script src="../../../libs/blockly/generators/javascript.js"></script>
 <script src="../../../libs/blockly/generators/python/controls.js"></script>
+<script src="../../../libs/blockly/generators/python/custom/logic.js"></script>
+<script src="../../../libs/blockly/generators/python/custom/variable.js"></script>
 <script src="../../../libs/blockly/generators/javascript/controls.js"></script>
+<script src="../../../libs/blockly/generators/javascript/custom/logic.js"></script>
+<script src="../../../libs/blockly/generators/javascript/custom/variable.js"></script>
 <script src="../../../libs/blockly/msg/js/pt-br.js"></script>
 
 <script src="../../../static/js/BlockHighlighter.js"></script>
@@ -67,7 +77,6 @@
             element = element.offsetParent;
         } while (element);
         // Position blocklyDiv over blocklyArea.
-        
         blocklyDiv.style.left = x + 'px';
         blocklyDiv.style.top = y + 'px';
         blocklyDiv.style.width = blocklyArea.offsetWidth + 'px';
@@ -99,11 +108,10 @@
         workspace.highlightBlock(id);
     }
 
+    var pidBlockly;
     document.getElementById("runGame").onclick = function () {
         try {
             reset();
-			
-			document.getElementById("runGame").innerHTML = "Recomeçar";
 
             // A cada execução de um bloco, chama highlightBlock(idDoBloco)
             Blockly.JavaScript.STATEMENT_PREFIX = 'highlightBlock(%1);\n';
@@ -113,29 +121,51 @@
 
             // https://neil.fraser.name/software/JS-Interpreter/docs.html
             var initFunc = function(interpreter, scope) {
-                blockHighlightWrapper = function(id) {
+                let blockHighlightWrapper = function(id) {
                     return workspace.highlightBlock(id);
-                }
+                };
 
+                let moveUpWrapper = function(nTiles) {
+                    return moveUp(nTiles);
+                };
+
+                let moveDownWrapper = function(nTiles) {
+                    return moveDown(nTiles);
+                };
+
+                let moveLeftWrapper = function(nTiles) {
+                    return moveLeft(nTiles);
+                };
+
+                let moveRightWrapper = function(nTiles) {
+                    return moveRight(nTiles);
+                };
+
+                interpreter.setProperty(scope, 'coinValue', coinValue);
+                interpreter.setProperty(
+                    scope,
+                    'takeCoin',
+                    interpreter.createNativeFunction(takeCoin)
+                );
                 interpreter.setProperty(
                     scope,
                     'moveUp',
-                    interpreter.createNativeFunction(moveUp)
+                    interpreter.createNativeFunction(moveUpWrapper)
                 );
                 interpreter.setProperty(
                     scope,
                     'moveDown',
-                    interpreter.createNativeFunction(moveDown)
+                    interpreter.createNativeFunction(moveDownWrapper)
                 );
                 interpreter.setProperty(
                     scope,
                     'moveLeft',
-                    interpreter.createNativeFunction(moveLeft)
+                    interpreter.createNativeFunction(moveLeftWrapper)
                 );
                 interpreter.setProperty(
                     scope,
                     'moveRight',
-                    interpreter.createNativeFunction(moveRight)
+                    interpreter.createNativeFunction(moveRightWrapper)
                 );
                 interpreter.setProperty(
                     scope,
@@ -149,28 +179,59 @@
             function nextStep()
             {
                 if(interpreter.step())
-                    pidBlockly = window.setTimeout(nextStep, 50);
+                    pidBlockly = window.setTimeout(nextStep, 150);
             }
 
             nextStep();
         }
         catch (e) {
-            console.log(e); }
+            console.log(e); 
+        }
     };
 
-    const MAP_ROWS = 8;
-    const MAP_COLS = 8;
-    
+    var level = [
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 2, 1, 1, 1, 1, 1, 0],
+        [0, 1, 1, 1, 1, 1, 1, 0],
+        [0, 1, 1, 1, 1, 1, 1, 0],
+        [0, 1, 1, 1, 1, 1, 1, 0],
+        [0, 1, 1, 1, 1, 1, 1, 0],
+        [0, 1, 1, 1, 1, 1, 1, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0]
+    ];
+    const MAP_ROWS = level[0].length;
+    const MAP_COLS = level.length;
     const TILE_WIDTH = 32;
     const TILE_HEIGHT = 32;
-    
     const MAP_WIDTH = TILE_WIDTH * MAP_COLS;
     const MAP_HEIGHT = TILE_HEIGHT * MAP_ROWS;
     
-    const PLAYER_SPAWN_POINT = {x: 4*32-16, y: 4*32-16};
-    const PLAYER_END_POINT = {x: 3*32-16, y: 5*32-16};
+    var player;
+    var playerEnteredATileWithCoin = false;
+    var isMoving = false;
+    var isSliding = false;
+    var destinationX;
+    var destinationY;
+    const PLAYER_SPAWN_POINT = {x: 2*32-16, y: 2*32-16};
+    const PLAYER_END_POINT = {x: 2*32-16, y: 2*32-16};
     const PLAYER_SPEED = 120;
-        
+
+    var coins;
+    var coinValue;
+    const COINS_POS = [
+        {x: 7*32 - 16, y: 2*32 - 16},
+        {x: 7*32 - 16, y: 7*32 - 16},
+        {x: 2*32 - 16, y: 7*32 - 16},
+        {x: 5*32 - 16, y: 4*32 - 16},
+        {x: 4*32 - 16, y: 4*32 - 16},
+        {x: 5*32 - 16, y: 5*32 - 16},
+        {x: 4*32 - 16, y: 5*32 - 16}
+    ];
+    var playerMoney;
+    var playerMoneyLabel;
+
+    var destination;
+    
     var config = {
         type: Phaser.AUTO,
         width: MAP_WIDTH,
@@ -186,20 +247,14 @@
             update: update
         }
     };
-    
-	var pidBlockly;
 	
-    var player;
-    var isMoving = false;
-    var destinationX;
-    var destinationY;
-	var destination;
-    
     var game = new Phaser.Game(config);
 
     function hasPlayerWon()
     {
-        return player.x == PLAYER_END_POINT.x && player.y == PLAYER_END_POINT.y;
+        return (coinsCollected == COINS_POS.length)
+            && (player.x == PLAYER_END_POINT.x)
+            && (player.y == PLAYER_SPAWN_POINT.y);
     }
 
     function win()
@@ -207,44 +262,91 @@
         alert('!!!');
     }
 
+    function isPlayerAt(x, y)
+    {
+        return player.x === x && player.y === y;
+    }   
+
+    function spawnCoins()
+    {
+        let coinNumber = 0;
+        coins.children.iterate(function(child) {
+            child.x = COINS_POS[coinNumber].x;
+            child.y = COINS_POS[coinNumber].y;
+            child.enableBody(true, child.x, child.y, true, true);
+            coinNumber++;
+        });
+    }
+
+    function takeCoin()
+    {
+        let coinNumber = 0;
+        coins.children.iterate(function(child) {
+            child.x = COINS_POS[coinNumber].x;
+            child.y = COINS_POS[coinNumber].y;
+
+            if(isPlayerAt(child.x, child.y))
+            {
+                child.disableBody(true, true);
+                playerMoney += coinValue;
+                playerMoneyLabel.setText("$" + playerMoney);
+            }
+
+            coinNumber++;
+        });
+
+        atributeCoinValue();
+    }
+
+    function atributeCoinValue()
+    {
+        coinValue = ((Phaser.Math.Between(1, 100) <= 50) ? 10 : 1);
+    }
+
     function reset()
     {
 		window.clearTimeout(pidBlockly);
-	
+
+        player.setVelocity(0, 0);
         player.x = PLAYER_SPAWN_POINT.x;
         player.y = PLAYER_SPAWN_POINT.y;
         player.anims.play('turn', true);
+
+        spawnCoins();
+        atributeCoinValue();
+        playerMoney = 0;
+        playerMoneyLabel.setText('$0');
     }
 
     function onPlayerCollideWithLayer(player, layer)
     {
+        window.clearTimeout(pidBlockly);
         window.setTimeout(reset, 400);
     }
 
-    function moveUp()
+    function moveUp(nTiles=1)
     {
         destinationX = player.x;
-        destinationY = player.y - TILE_HEIGHT;
+        destinationY = player.y - TILE_HEIGHT*nTiles;
         isMoving = true;
     
         player.setVelocityY(-PLAYER_SPEED);
         player.anims.play('up', true);
     }
-    
-    function moveDown()
+
+    function moveDown(nTiles=1)
     {
         destinationX = player.x;
-        destinationY = player.y + TILE_HEIGHT;
+        destinationY = player.y + TILE_HEIGHT*nTiles;
         isMoving = true;
-    
-        player.setVelocityY(PLAYER_SPEED);
-    
+
+        player.setVelocityY(PLAYER_SPEED); 
         player.anims.play('down', true);
     }
     
-    function moveLeft()
+    function moveLeft(nTiles=1)
     {
-        destinationX = player.x - TILE_WIDTH;
+        destinationX = player.x - TILE_WIDTH*nTiles;
         destinationY = player.y;
         isMoving = true;
     
@@ -252,24 +354,30 @@
         player.anims.play('left', true);
     }
     
-    function moveRight()
+    function moveRight(nTiles=1)
     {
-        destinationX = player.x + TILE_WIDTH;
+        destinationX = player.x + TILE_WIDTH*nTiles;
         destinationY = player.y;
         isMoving = true;
     
         player.setVelocityX(PLAYER_SPEED);
         player.anims.play('right', true);
+
     }
     
     function preload ()
     {
-        this.load.image('level', '../../assets/forest.png');
-		this.load.spritesheet(
-			'destination',
-			'../../assets/destination.png',
-			{ frameWidth: TILE_WIDTH, frameHeight: TILE_HEIGHT }
-		);
+        this.load.image('level', '../../assets/icy.png');
+        this.load.spritesheet(
+            'coin',
+            '../../assets/coin.png',
+            { frameWidth: TILE_WIDTH, frameHeight: TILE_HEIGHT }
+        );
+        this.load.spritesheet(
+            'destination', 
+            '../../assets/destination.png', 
+            { frameWidth: TILE_WIDTH, frameHeight: TILE_HEIGHT }
+        );
         this.load.spritesheet(
             'char', 
             '../../assets/char.png', 
@@ -279,17 +387,6 @@
     
     function create ()
     {
-        const level = [
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 2, 1, 0, 0, 0],
-            [0, 0, 1, 0, 1, 0, 0, 0],
-            [0, 0, 1, 1, 1, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0]
-        ];
-    
         const map = this.make.tilemap({
             data: level,
             tileWidth: TILE_WIDTH,
@@ -298,16 +395,32 @@
 
         const tiles = map.addTilesetImage('level');
         const layer = map.createStaticLayer(0, tiles, 0, 0);
-        const layer2 = map.createStaticLayer(2, tiles, 0, 0);
-
         layer.setCollision(0);
-    
+
+        coins = this.physics.add.group({
+            key: 'coin',
+            repeat: COINS_POS.length-1
+        });
+
+        spawnCoins();
+
+        playerMoneyLabel = this.add.text(
+            0, 
+            0,
+            '$0',
+            { fontSize: '36px', fill: '#F6FF00' }
+        );
+
+        playerMoneyLabel.setStroke("#000000", 2);
+
         player = this.physics.add.sprite(
             PLAYER_SPAWN_POINT.x,
             PLAYER_SPAWN_POINT.y,
             'dude'
         );
-        player.setCollideWorldBounds(true);	
+
+        player.setCollideWorldBounds(true);
+
         this.physics.add.collider(
             player, 
             layer, 
@@ -315,12 +428,12 @@
             null,
             this
         );
-		
-		destination = this.physics.add.sprite(
-			PLAYER_END_POINT.x,
-			PLAYER_END_POINT.y,
-			'destination'
-		);
+
+        destination = this.physics.add.sprite(
+            PLAYER_END_POINT.x,
+            PLAYER_END_POINT.y,
+            'destination'
+        );
     
         this.anims.create({
             key: 'left',
@@ -355,33 +468,42 @@
             frameRate: 10,
             repeat: -1
         });
-		
-		this.anims.create({
-			key: 'point',
-			frames: this.anims.generateFrameNumbers('destination', { start: 0, end: 7 }),
-			frameRate: 8,
-			repeat: -1
-		});
-		
+
+        this.anims.create({
+            key: 'point',
+            frames: this.anims.generateFrameNumbers('destination', { start: 0, end: 7 }),
+            frameRate: 8,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'rotate',
+            frames: this.anims.generateFrameNumbers('coin', { start: 0, end: 5 }),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        destination.anims.play('point', true);
+        coins.playAnimation('rotate', true);
         player.anims.play('turn', true);
+
+        atributeCoinValue();
     }
     
-    function update ()
+    function update()
     {
         if(
             (isMoving)
-            && (player.x == destinationX)
-            && (player.y == destinationY)
+            && (player.x === destinationX)
+            && (player.y === destinationY)
         )
         {
-            player.setVelocity(0, 0);
             isMoving = false;
-
-            if(hasPlayerWon())
-                win();
+            player.setVelocity(0, 0);
+            player.anims.play('turn', true);
         }
-		
-		destination.anims.play('point', true);
+
+        console.log(coinValue);
     }
 
 </script>

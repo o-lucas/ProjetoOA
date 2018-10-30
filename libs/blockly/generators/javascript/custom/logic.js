@@ -19,6 +19,8 @@ Blockly.JavaScript['logic_if'] = function(block) {
     ifCode = Blockly.JavaScript.statementToCode(block, 'if_statements');
     code = 'if(' + ifCondition + ') {\n' + ifCode + '}\n';
 
+    console.log(code);
+
     return code;
 }
 
@@ -41,4 +43,22 @@ Blockly.JavaScript['logic_if_else'] = function(block) {
         code += 'else {\n' + elseCode + '}\n';
 
     return code;
+}
+
+Blockly.JavaScript['logic_coinValue_equals_number'] = function(block) {
+    var OPERATORS = {
+      'EQ': '==',
+      'NEQ': '!=',
+      'LT': '<',
+      'LTE': '<=',
+      'GT': '>',
+      'GTE': '>='
+    };
+
+    var operator = OPERATORS[block.getFieldValue('operation')];
+    var order = (operator == '==' || operator == '!=') ?
+        Blockly.JavaScript.ORDER_EQUALITY : Blockly.JavaScript.ORDER_RELATIONAL;
+    var number = Blockly.JavaScript.valueToCode(block, 'number', order) || '0';
+    var code = 'coinValue ' + operator + ' ' + number;
+    return [code, order];
 }

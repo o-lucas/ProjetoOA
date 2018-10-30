@@ -10,10 +10,11 @@
     <div id="mainDiv" style="height: 100%; width: 50%; float: left;">
         <div id="blocklyDiv" style="position: absolute;"></div>
         <xml id="toolbox" style="display: none;">
-            <block type="controls_moveUp"></block>
-            <block type="controls_moveDown"></block>
-            <block type="controls_moveLeft"></block>
-            <block type="controls_moveRight"></block>
+            <block type="controls_moveUpWithParameter"></block>
+            <block type="controls_moveDownWithParameter"></block>
+            <block type="controls_moveLeftWithParameter"></block>
+            <block type="controls_moveRightWithParameter"></block>
+            <block type="math_number"></block>
         </xml>
     </div>
     <!-- Código fonte gerado a partir dos blocos (Python, no momento) -->
@@ -146,7 +147,7 @@
             function nextStep()
             {
                 if(interpreter.step())
-                    pidBlockly = window.setTimeout(nextStep, 50);
+                    pidBlockly = window.setTimeout(nextStep, 140);
             }
 
             nextStep();
@@ -165,7 +166,7 @@
     const MAP_HEIGHT = TILE_HEIGHT * MAP_ROWS;
     
     const PLAYER_SPAWN_POINT = {x: 0+16, y: 0+16};
-    const PLAYER_END_POINT = {x: 6*32-16, y: 8*32-16};
+    const PLAYER_END_POINT = {x: 5*32-16, y: 3*32-16};
     const PLAYER_SPEED = 120;
         
     var config = {
@@ -208,6 +209,7 @@
     {
 		window.clearTimeout(pidBlockly);
 	
+        player.setVelocity(0, 0);
         player.x = PLAYER_SPAWN_POINT.x;
         player.y = PLAYER_SPAWN_POINT.y;
         player.anims.play('turn', true);
@@ -218,20 +220,30 @@
         window.setTimeout(reset, 400);
     }
 
-    function moveUp()
+    function moveUp(nTiles)
     {
+        if(nTiles <= 0)
+            return;
+
+        nTiles = Math.floor(nTiles);
+
         destinationX = player.x;
-        destinationY = player.y - TILE_HEIGHT;
+        destinationY = player.y - TILE_HEIGHT*nTiles;
         isMoving = true;
     
         player.setVelocityY(-PLAYER_SPEED);
         player.anims.play('up', true);
     }
     
-    function moveDown()
+    function moveDown(nTiles)
     {
+        if(nTiles <= 0)
+            return;
+
+        nTiles = Math.floor(nTiles);
+
         destinationX = player.x;
-        destinationY = player.y + TILE_HEIGHT;
+        destinationY = player.y + TILE_HEIGHT*nTiles;
         isMoving = true;
     
         player.setVelocityY(PLAYER_SPEED);
@@ -239,9 +251,14 @@
         player.anims.play('down', true);
     }
     
-    function moveLeft()
+    function moveLeft(nTiles)
     {
-        destinationX = player.x - TILE_WIDTH;
+        if(nTiles <= 0)
+            return;
+
+        nTiles = Math.floor(nTiles);
+
+        destinationX = player.x - TILE_WIDTH*nTiles;
         destinationY = player.y;
         isMoving = true;
     
@@ -249,9 +266,14 @@
         player.anims.play('left', true);
     }
     
-    function moveRight()
+    function moveRight(nTiles)
     {
-        destinationX = player.x + TILE_WIDTH;
+        if(nTiles <= 0)
+            return;
+
+        nTiles = Math.floor(nTiles);
+
+        destinationX = player.x + TILE_WIDTH*nTiles;
         destinationY = player.y;
         isMoving = true;
     
@@ -277,14 +299,14 @@
     function create ()
     {
         const level = [
-            [2, 1, 1, 1, 1, 1, 0, 0],
-            [0, 0, 0, 0, 0, 1, 0, 0],
-            [1, 1, 1, 1, 1, 1, 1, 1],
-            [0, 0, 0, 1, 0, 1, 0, 1],
-            [0, 0, 0, 1, 1, 1, 0, 1],
-            [0, 1, 1, 1, 0, 1, 1, 1],
-            [0, 1, 0, 1, 0, 0, 0, 0],
-            [0, 1, 0, 1, 1, 1, 0, 0]
+            [2, 0, 1, 1, 1, 1, 1, 1],
+            [1, 0, 1, 0, 0, 0, 0, 1],
+            [1, 0, 1, 0, 1, 1, 0, 1],
+            [1, 0, 1, 0, 0, 1, 0, 1],
+            [1, 0, 1, 0, 0, 1, 0, 1],
+            [1, 0, 1, 1, 1, 1, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1]
         ];
     
         const map = this.make.tilemap({
@@ -359,6 +381,10 @@
         });
 
         player.anims.play('turn', true);
+
+        alert(
+            'Se não fossem os parâmetros, esse desafio seria resolvido por 38 blocos.'
+        );
     }
     
     function update ()
@@ -371,6 +397,7 @@
         {
             player.setVelocity(0, 0);
             isMoving = false;
+            player.anims.play('turn', true);
 
             if(hasPlayerWon())
                 win();

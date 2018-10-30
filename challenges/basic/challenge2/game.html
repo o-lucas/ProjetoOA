@@ -164,8 +164,8 @@
     const MAP_WIDTH = TILE_WIDTH * MAP_COLS;
     const MAP_HEIGHT = TILE_HEIGHT * MAP_ROWS;
     
-    const PLAYER_SPAWN_POINT = {x: 6*32-16, y: 0*32-16};
-    const PLAYER_END_POINT = {x: 6*32-16, y: 8*32-16};
+    const PLAYER_SPAWN_POINT = {x: 1*32-16, y: 1*32-16};
+    const PLAYER_END_POINT = {x: 8*32-16, y: 8*32-16};
     const PLAYER_SPEED = 120;
 
     var config = {
@@ -277,14 +277,14 @@
     function create ()
     {
         const level = [
-            [0, 0, 0, 0, 0, 2, 0, 0],
-            [0, 0, 1, 1, 1, 1, 0, 0],
-            [0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 1, 1, 1, 1, 0, 0],
-            [0, 0, 0, 0, 0, 1, 0, 0],
-            [0, 0, 1, 1, 1, 1, 0, 0],
-            [0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 1, 1, 1, 1, 0, 0]
+            [2, 1, 1, 1, 0, 0, 0, 0],
+            [0, 0, 0, 1, 0, 0, 0, 0],
+            [0, 0, 0, 1, 0, 0, 0, 0],
+            [1, 1, 1, 1, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0, 0, 0, 0],
+            [1, 1, 1, 1, 1, 1, 1, 1],
+            [0, 0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 0, 1]
         ];
     
         const map = this.make.tilemap({

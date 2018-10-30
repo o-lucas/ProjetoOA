@@ -10,11 +10,12 @@
     <div id="mainDiv" style="height: 100%; width: 50%; float: left;">
         <div id="blocklyDiv" style="position: absolute;"></div>
         <xml id="toolbox" style="display: none;">
-            <block type="controls_moveUp"></block>
-            <block type="controls_moveDown"></block>
-            <block type="controls_moveLeft"></block>
-            <block type="controls_moveRight"></block>
-			<block type="controls_takeCoin"></block>
+            <block type="controls_moveUpWithParameter"></block>
+            <block type="controls_moveDownWithParameter"></block>
+            <block type="controls_moveLeftWithParameter"></block>
+            <block type="controls_moveRightWithParameter"></block>
+			<block type="math_number"></block>
+
         </xml>
     </div>
     <!-- Código fonte gerado a partir dos blocos (Python, no momento) -->
@@ -111,9 +112,25 @@
 
             // https://neil.fraser.name/software/JS-Interpreter/docs.html
             var initFunc = function(interpreter, scope) {
-                blockHighlightWrapper = function(id) {
+                let blockHighlightWrapper = function(id) {
                     return workspace.highlightBlock(id);
-                }
+                };
+
+                let moveUpWrapper = function(tiles) {
+                    return moveUp(tiles);
+                };
+
+                let moveDownWrapper = function(tiles) {
+                    return moveDown(tiles);
+                };
+
+                let moveLeftWrapper = function(tiles) {
+                    return moveLeft(tiles);
+                };
+
+                let moveRightWrapper = function(tiles) {
+                    return moveRight(tiles);
+                };
 
                 interpreter.setProperty(
                     scope,
@@ -123,7 +140,7 @@
                 interpreter.setProperty(
                     scope,
                     'moveDown',
-                    interpreter.createNativeFunction(moveDown)
+                    interpreter.createNativeFunction(moveDownWrapper)
                 );
                 interpreter.setProperty(
                     scope,
@@ -134,11 +151,6 @@
                     scope,
                     'moveRight',
                     interpreter.createNativeFunction(moveRight)
-                );
-				interpreter.setProperty(
-                    scope,
-                    'takeCoin',
-                    interpreter.createNativeFunction(takeCoin)
                 );
                 interpreter.setProperty(
                     scope,
@@ -152,13 +164,14 @@
             function nextStep()
             {
                 if(interpreter.step())
-                    pidBlockly = window.setTimeout(nextStep, 50);
+                    pidBlockly = window.setTimeout(nextStep, 150);
             }
 
             nextStep();
         }
         catch (e) {
-            console.log(e); }
+            console.log(e); 
+        }
     };
 
     const MAP_ROWS = 8;
@@ -170,8 +183,8 @@
     const MAP_WIDTH = TILE_WIDTH * MAP_COLS;
     const MAP_HEIGHT = TILE_HEIGHT * MAP_ROWS;
     
-    const PLAYER_SPAWN_POINT = {x: 8*32-16, y: 0+16};
-    const PLAYER_END_POINT = {x: 1*32-16, y: 8*32-16};
+    const PLAYER_SPAWN_POINT = {x: 16, y: 16};
+    const PLAYER_END_POINT = {x: 8*32-16, y: 8*32-16};
     const PLAYER_SPEED = 120;
         
     var config = {
@@ -198,23 +211,11 @@
     var destinationY;
     var destination;
     
-    const COINS_IN_MAP = 6;
-    const COINS_POS = [
-        {x: 1*32 - 16, y: 1*32 - 16},
-        {x: 1*32 - 16, y: 8*32 - 16},
-        {x: 8*32 - 16, y: 8*32 - 16},
-        {x: 5*32 - 16, y: 8*32 - 16},
-        {x: 3*32 - 16, y: 4*32 - 16},
-        {x: 5*32 - 16, y: 6*32 - 16}
-    ];
-    var coins;
-    var coinsCollected = 0;
-
     var game = new Phaser.Game(config);
 
     function hasPlayerWon()
     {
-        return coinsCollected == COINS_IN_MAP;
+        return player.x == destination.x && player.y == destination.y;
     }
 
     function win()
@@ -222,40 +223,13 @@
         alert('!!!');
     }
 
-    function spawnCoins()
-    {
-		window.clearTimeout(pidBlockly);
-	
-        let coinNumber = 0;
-        coins.children.iterate(function(child) {
-            child.x = COINS_POS[coinNumber].x;
-            child.y = COINS_POS[coinNumber].y;
-            child.enableBody(true, child.x, child.y, true, true);
-            coinNumber++;
-        });
-    }
-	
-	function takeCoin()
-	{
-		let coinNumber;
-		coins.children.iterate(function(coin) {
-			if((player.x === coin.x) && (player.y === coin.y))
-			{
-				coin.disableBody(true, true);
-				coinsCollected++;
-			}
-
-			coinNumber++;
-		});
-	}
-
     function reset()
     {
+        window.clearTimeout(pidBlockly);
+
         player.x = PLAYER_SPAWN_POINT.x;
         player.y = PLAYER_SPAWN_POINT.y;
         player.anims.play('turn', true);
-        spawnCoins();
-        coinsCollected = 0;
     }
 
     function onPlayerCollideWithLayer(player, layer)
@@ -263,30 +237,47 @@
         window.setTimeout(reset, 400);
     }
 
-    function moveUp()
+    function moveUp(nTiles=1)
     {
+        if(nTiles == 0)
+            nTiles = 1;
+
+        nTiles = Math.abs(nTiles);
+        nTiles = Math.floor(nTiles);
+
         destinationX = player.x;
-        destinationY = player.y - TILE_HEIGHT;
+        destinationY = player.y - TILE_HEIGHT*nTiles;
         isMoving = true;
     
         player.setVelocityY(-PLAYER_SPEED);
         player.anims.play('up', true);
     }
     
-    function moveDown()
+    function moveDown(nTiles=1)
     {
+        if(nTiles == 0)
+            nTiles = 1;
+
+        nTiles = Math.abs(nTiles);
+        nTiles = Math.floor(nTiles);
+
         destinationX = player.x;
-        destinationY = player.y + TILE_HEIGHT;
+        destinationY = player.y + TILE_HEIGHT*nTiles;
         isMoving = true;
-    
-        player.setVelocityY(PLAYER_SPEED);
-    
+
+        player.setVelocityY(PLAYER_SPEED); 
         player.anims.play('down', true);
     }
     
-    function moveLeft()
+    function moveLeft(nTiles=1)
     {
-        destinationX = player.x - TILE_WIDTH;
+        if(nTiles == 0)
+            nTiles = 1;
+
+        nTiles = Math.abs(nTiles);
+        nTiles = Math.floor(nTiles);
+
+        destinationX = player.x - TILE_WIDTH*nTiles;
         destinationY = player.y;
         isMoving = true;
     
@@ -294,9 +285,15 @@
         player.anims.play('left', true);
     }
     
-    function moveRight()
+    function moveRight(nTiles=1)
     {
-        destinationX = player.x + TILE_WIDTH;
+        if(nTiles == 0)
+            nTiles = 1;
+
+        nTiles = Math.abs(nTiles);
+        nTiles = Math.floor(nTiles);
+
+        destinationX = player.x + TILE_WIDTH*nTiles;
         destinationY = player.y;
         isMoving = true;
     
@@ -307,11 +304,6 @@
     function preload ()
     {
         this.load.image('level', '../../assets/icy.png');
-        this.load.spritesheet(
-            'coin',
-            '../../assets/coin.png',
-            { frameWidth: TILE_WIDTH, frameHeight: TILE_HEIGHT }
-        );
         this.load.spritesheet(
             'destination', 
             '../../assets/destination.png', 
@@ -327,14 +319,14 @@
     function create ()
     {
         const level = [
-            [1, 0, 0, 0, 0, 0, 0, 2],
-            [1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 0, 0, 0, 0, 0, 0, 1],
-            [1, 0, 1, 0, 0, 0, 0, 1],
-            [1, 0, 1, 1, 1, 1, 0, 1],
-            [1, 0, 0, 0, 1, 0, 0, 1],
-            [1, 0, 0, 0, 1, 0, 0, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1]
+            [6, 4, 4, 4, 4, 5, 5, 5],
+            [5, 4, 4, 5, 5, 5, 4, 4],
+            [5, 5, 5, 5, 4, 5, 5, 5],
+            [4, 5, 4, 5, 4, 5, 5, 4],
+            [4, 5, 5, 5, 5, 5, 5, 5],
+            [4, 5, 4, 4, 4, 5, 4, 5],
+            [4, 5, 5, 5, 5, 5, 5, 5],
+            [4, 4, 4, 4, 4, 4, 4, 5]
         ];
     
         const map = this.make.tilemap({
@@ -346,14 +338,8 @@
         const tiles = map.addTilesetImage('level');
         const layer = map.createStaticLayer(0, tiles, 0, 0);
         layer.setCollision(0);
+        layer.setCollision(4);
 
-        coins = this.physics.add.group({
-            key: 'coin',
-            repeat: COINS_IN_MAP-1
-        });
-
-        spawnCoins();
-    
         player = this.physics.add.sprite(
             PLAYER_SPAWN_POINT.x,
             PLAYER_SPAWN_POINT.y,
@@ -415,13 +401,6 @@
             repeat: -1
         });
 
-        this.anims.create({
-            key: 'rotate',
-            frames: this.anims.generateFrameNumbers('coin', { start: 0, end: 5 }),
-            frameRate: 10,
-            repeat: -1
-        });
-
         player.anims.play('turn', true);
     }
     
@@ -436,12 +415,13 @@
             player.setVelocity(0, 0);
             isMoving = false;
 
+            player.anims.play('turn', true);
+
             if(hasPlayerWon())
                 win();
         }
 
         destination.anims.play('point', true);
-        coins.playAnimation('rotate', true);
     }
 
 </script>

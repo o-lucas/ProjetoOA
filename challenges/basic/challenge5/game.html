@@ -14,7 +14,7 @@
             <block type="controls_moveDown"></block>
             <block type="controls_moveLeft"></block>
             <block type="controls_moveRight"></block>
-            <block type="logic_if"></block>
+            <block type="controls_toggleSwitch"></block>
         </xml>
     </div>
     <!-- Código fonte gerado a partir dos blocos (Python, no momento) -->
@@ -33,12 +33,8 @@
 
 <script src="../../../libs/blockly/blockly_uncompressed.js"></script>
 <script src="../../../static/js/level1/controls.js"></script>
-
-<script src="../../../libs/blockly/blocks/custom/logic_blocks.js"></script>
-<script src="../../../libs/blockly/generators/javascript/custom/logic_blocks.js"></script>
-
-<script src="../../../libs/blockly/generators/javascript.js"></script>
 <script src="../../../libs/blockly/generators/python.js"></script>
+<script src="../../../libs/blockly/generators/javascript.js"></script>
 <script src="../../../libs/blockly/generators/python/controls.js"></script>
 <script src="../../../libs/blockly/generators/javascript/controls.js"></script>
 <script src="../../../libs/blockly/msg/js/pt-br.js"></script>
@@ -61,7 +57,6 @@
     var blocklyDiv = document.getElementById('blocklyDiv');
     var workspace = Blockly.inject(blocklyDiv,
         { toolbox: document.getElementById('toolbox') });
-    new Blockly.Scrollbar(workspace, false);
     var onresize = function (e) {
         // Compute the absolute coordinates and dimensions of blocklyArea.
         var element = blocklyArea;
@@ -104,6 +99,7 @@
         workspace.highlightBlock(id);
     }
 
+    var pidBlockly;
     document.getElementById("runGame").onclick = function () {
         try {
             reset();
@@ -116,10 +112,9 @@
 
             // https://neil.fraser.name/software/JS-Interpreter/docs.html
             var initFunc = function(interpreter, scope) {
-                blockHighlightWrapper = function(id) {
+                let blockHighlightWrapper = function(id) {
                     return workspace.highlightBlock(id);
-                }
-
+                };
                 interpreter.setProperty(
                     scope,
                     'moveUp',
@@ -142,6 +137,11 @@
                 );
                 interpreter.setProperty(
                     scope,
+                    'toggleSwitch',
+                    interpreter.createNativeFunction(toggleSwitch)
+                );
+                interpreter.setProperty(
+                    scope,
                     'highlightBlock',
                     interpreter.createNativeFunction(blockHighlightWrapper)
                 );
@@ -152,27 +152,67 @@
             function nextStep()
             {
                 if(interpreter.step())
-                    window.setTimeout(nextStep, 50);
+                    pidBlockly = window.setTimeout(nextStep, 150);
             }
 
             nextStep();
         }
         catch (e) {
-            console.log(e); }
+            console.log(e); 
+        }
     };
 
-    const MAP_ROWS = 8;
-    const MAP_COLS = 8;
-    
+    var level = [
+        [4, 4, 4, 4, 4, 4, 4, 4],
+        [4, 6, 4, 8, 8, 8, 8, 4],
+        [4, 8, 4, 4, 4, 4, 8, 4],
+        [4, 8, 4, 4, 4, 4, 8, 4],
+        [4, 8, 8, 8, 8, 8, 8, 4],
+        [4, 8, 4, 8, 8, 4, 8, 4],
+        [4, 8, 8, 8, 8, 8, 8, 4],
+        [4, 4, 4, 4, 4, 4, 4, 4]
+    ];
+    const MAP_ROWS = level[0].length;
+    const MAP_COLS = level.length;
     const TILE_WIDTH = 32;
     const TILE_HEIGHT = 32;
-    
     const MAP_WIDTH = TILE_WIDTH * MAP_COLS;
     const MAP_HEIGHT = TILE_HEIGHT * MAP_ROWS;
     
-    const PLAYER_SPAWN_POINT = {x: 5*32-16, y: 5*32-16};
+    var player;
+    var direction;
+    var isMoving = false;
+    var isSliding = false;
+    var destinationX;
+    var destinationY;
+    const PLAYER_SPAWN_POINT = {x: 2*32-16, y: 2*32-16};
+    const PLAYER_END_POINT = {x: 2*32-16, y: 2*32-16};
     const PLAYER_SPEED = 120;
+    const PLAYER_DIRECTION = {UP: 1, DOWN: 2, LEFT: 3, RIGHT: 4};
 
+    const COINS_POS = [
+        {x: 3*32 - 16, y: 5*32 - 16},
+        {x: 2*32 - 16, y: 7*32 - 16},
+        {x: 7*32 - 16, y: 7*32 - 16},
+        {x: 7*32 - 16, y: 2*32 - 16},
+        {x: 5*32 - 16, y: 6*32 - 16},
+        {x: 6*32 - 16, y: 5*32 - 16},
+    ];
+
+    var destination;
+    
+    var wallSwitch;
+    var wallSwitchState = false;
+    const WALL_SWITCH_POS = {x: 4*32 - 16 , y: 2*32 - 16 };
+    const WALL_SWITCH_TOGGLEABLE_POS = {x: 5*32 - 16, y: 2*32 - 16 };
+
+    var activableWalls;
+    const ACTIVABLE_WALLS_POS = [
+        {x: 2*32 - 16, y: 4*32 - 16 },
+        {x: 4*32 - 16, y: 5*32 - 16 },
+        {x: 7*32 - 16, y: 6*32 - 16 },
+        {x: 6*32 - 16, y: 7*32 - 16 },
+    ];
         
     var config = {
         type: Phaser.AUTO,
@@ -189,18 +229,23 @@
             update: update
         }
     };
-    
-    var player;
-    var isMoving = false;
-    var destinationX;
-    var destinationY;
-    
+	
     var game = new Phaser.Game(config);
+
+    function isPlayerAtPoint(point)
+    {
+        return player.x === point.x && player.y === point.y;
+    }
+
+    function isPlayerAtXY(xPos, yPos)
+    {
+        return player.x === xPos && player.y === yPos;
+    }
 
     function hasPlayerWon()
     {
-        // TODO
-        return false;
+        return coinsCollected == COINS_POS.length
+               && isPlayerAtPoint(PLAYER_END_POINT);
     }
 
     function win()
@@ -208,62 +253,217 @@
         alert('!!!');
     }
 
+    function spawnCoins()
+    {
+        let coinNumber = 0;
+        coins.children.iterate(function(child) {
+            child.x = COINS_POS[coinNumber].x;
+            child.y = COINS_POS[coinNumber].y;
+            child.enableBody(true, child.x, child.y, true, true);
+            coinNumber++;
+        });
+    }
+
+    function activateWalls()
+    {
+        let activableWallNumber = 0;
+        activableWalls.children.iterate(function(child) {
+            child.x = ACTIVABLE_WALLS_POS[activableWallNumber].x;
+            child.y = ACTIVABLE_WALLS_POS[activableWallNumber].y;
+            child.enableBody(true, child.x, child.y, true, true);
+            activableWallNumber++;
+        });
+    }
+
+    function deactivateWalls()
+    {
+        let activableWallNumber = 0;
+        activableWalls.children.iterate(function(child) {
+            child.x = ACTIVABLE_WALLS_POS[activableWallNumber].x;
+            child.y = ACTIVABLE_WALLS_POS[activableWallNumber].y;
+            child.disableBody(true, true);
+            activableWallNumber++;
+        });
+    }
+	
     function reset()
     {
+		window.clearTimeout(pidBlockly);
+
+        player.setVelocity(0, 0);
         player.x = PLAYER_SPAWN_POINT.x;
         player.y = PLAYER_SPAWN_POINT.y;
         player.anims.play('turn', true);
+
+        spawnCoins();
+        coinsCollected = 0;
+
+        deactivateWalls();
+        wallSwitch.anims.play('switchoff', true);
+        wallSwitchState = false;
     }
+
+	function onPlayerCollideWithCoin(player, coin)
+	{
+        coin.disableBody(true, true);
+        coinsCollected++;
+	}
 
     function onPlayerCollideWithLayer(player, layer)
     {
-        window.setTimeout(reset, 400);
+        player.anims.play('turn', true);
+        player.setVelocity(0, 0);
+        if(hasPlayerWon())
+            win();
+    }
+
+    function onPlayerCollideWithActivableWall(player, activableWall)
+    {
+        player.anims.play('turn', true);
+        player.setVelocity(0, 0);
+    }
+
+    function onPlayerCollideWithWallSwitch(player, wallSwitch)
+    {
+        player.anims.play('turn', true);
+        player.setVelocity(0, 0);
+    }
+
+    function toggleSwitch()
+    {
+        if(isPlayerAtPoint(WALL_SWITCH_TOGGLEABLE_POS))
+        {
+            if(wallSwitchState)
+            {
+                wallSwitch.anims.play('switchoff', true);
+                deactivateWalls();
+                wallSwitchState = false;
+            }
+            else
+            {
+                wallSwitch.anims.play('switchon', true);
+                activateWalls();
+                wallSwitchState = true;
+            }
+        }
+        else
+        {
+            reset();
+            alert('Você precisa estar ao próximo a alavanca para puxá-la');
+        }
     }
 
     function moveUp()
     {
-        destinationX = player.x;
-        destinationY = player.y - TILE_HEIGHT;
-        isMoving = true;
-    
-        player.setVelocityY(-PLAYER_SPEED);
-        player.anims.play('up', true);
+        let playerXPosInLevelMatrix = ((player.x+16) / 32) - 1;
+        let playerYPosInLevelMatrix = ((player.y+16) / 32) - 1;
+
+        if(level[playerYPosInLevelMatrix-1][playerXPosInLevelMatrix] === 4)
+        {
+            reset();
+            alert('Você não pode mover para uma parede');
+        }
+        else
+        {
+            destinationX = player.x;
+            destinationY = player.y - TILE_HEIGHT;
+            isMoving = true;
+        
+            player.setVelocityY(-PLAYER_SPEED);
+            player.anims.play('up', true);
+
+            direction = PLAYER_DIRECTION.UP;
+        }
     }
-    
+
     function moveDown()
     {
-        destinationX = player.x;
-        destinationY = player.y + TILE_HEIGHT;
-        isMoving = true;
-    
-        player.setVelocityY(PLAYER_SPEED);
-    
-        player.anims.play('down', true);
+        let playerXPosInLevelMatrix = ((player.x+16) / 32) - 1;
+        let playerYPosInLevelMatrix = ((player.y+16) / 32) - 1;
+
+        if(level[playerYPosInLevelMatrix+1][playerXPosInLevelMatrix] === 4)
+        {
+            reset();
+            alert('Você não pode mover para uma parede');
+        }
+        else
+        {
+            destinationX = player.x;
+            destinationY = player.y + TILE_HEIGHT;
+            isMoving = true;
+
+            player.setVelocityY(PLAYER_SPEED); 
+            player.anims.play('down', true);
+
+            direction = PLAYER_DIRECTION.DOWN;
+        }
     }
     
     function moveLeft()
     {
-        destinationX = player.x - TILE_WIDTH;
-        destinationY = player.y;
-        isMoving = true;
-    
-        player.setVelocityX(-PLAYER_SPEED);
-        player.anims.play('left', true);
+        let playerXPosInLevelMatrix = ((player.x+16) / 32) - 1;
+        let playerYPosInLevelMatrix = ((player.y+16) / 32) - 1;
+
+        if(level[playerYPosInLevelMatrix][playerXPosInLevelMatrix-1] === 4)
+        {
+            reset();
+            alert('Você não pode mover para uma parede');
+        }
+        else
+        {
+            destinationX = player.x - TILE_WIDTH;
+            destinationY = player.y;
+            isMoving = true;
+        
+            player.setVelocityX(-PLAYER_SPEED);
+            player.anims.play('left', true);
+
+            direction = PLAYER_DIRECTION.LEFT;
+        }
     }
     
     function moveRight()
     {
-        destinationX = player.x + TILE_WIDTH;
-        destinationY = player.y;
-        isMoving = true;
-    
-        player.setVelocityX(PLAYER_SPEED);
-        player.anims.play('right', true);
+        let playerXPosInLevelMatrix = ((player.x+16) / 32) - 1;
+        let playerYPosInLevelMatrix = ((player.y+16) / 32) - 1;
+
+        if(level[playerYPosInLevelMatrix][playerXPosInLevelMatrix+1] === 4)
+        {
+            reset();
+            alert('Você não pode mover para uma parede');
+        }
+        else
+        {
+            destinationX = player.x + TILE_WIDTH;
+            destinationY = player.y;
+            isMoving = true;
+        
+            player.setVelocityX(PLAYER_SPEED);
+            player.anims.play('right', true);
+
+            direction = PLAYER_DIRECTION.RIGHT;
+        }
     }
     
     function preload ()
     {
         this.load.image('level', '../../assets/icy.png');
+        this.load.image('activableWall', '../../assets/icyfakewall.png');
+        this.load.spritesheet(
+            'switch',
+            '../../assets/switch.png',
+            { frameWidth: TILE_WIDTH, frameHeight: TILE_HEIGHT }
+        );
+        this.load.spritesheet(
+            'coin',
+            '../../assets/coin.png',
+            { frameWidth: TILE_WIDTH, frameHeight: TILE_HEIGHT }
+        );
+        this.load.spritesheet(
+            'destination', 
+            '../../assets/destination.png', 
+            { frameWidth: TILE_WIDTH, frameHeight: TILE_HEIGHT }
+        );
         this.load.spritesheet(
             'char', 
             '../../assets/char.png', 
@@ -273,17 +473,6 @@
     
     function create ()
     {
-        const level = [
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 1, 1, 1, 1, 1, 1, 0],
-            [0, 1, 0, 0, 0, 0, 1, 0],
-            [0, 1, 1, 1, 2, 0, 1, 0],
-            [0, 0, 0, 0, 0, 0, 1, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0]
-        ];
-    
         const map = this.make.tilemap({
             data: level,
             tileWidth: TILE_WIDTH,
@@ -293,13 +482,50 @@
         const tiles = map.addTilesetImage('level');
         const layer = map.createStaticLayer(0, tiles, 0, 0);
         layer.setCollision(0);
+        layer.setCollision(4);
+
+        wallSwitch = this.physics.add.staticSprite(
+            WALL_SWITCH_POS.x,
+            WALL_SWITCH_POS.y,
+            'switch'
+        );
+
+        activableWalls = this.physics.add.staticGroup({
+            key: 'activableWall',
+            repeat: ACTIVABLE_WALLS_POS.length - 1
+        });
+    
+        coins = this.physics.add.group({
+            key: 'coin',
+            repeat: COINS_POS.length-1
+        });
+
+        spawnCoins();
 
         player = this.physics.add.sprite(
             PLAYER_SPAWN_POINT.x,
             PLAYER_SPAWN_POINT.y,
             'dude'
         );
+
         player.setCollideWorldBounds(true);
+
+        this.physics.add.collider(
+            player, 
+            wallSwitch, 
+            onPlayerCollideWithWallSwitch, 
+            null,
+            this
+        );
+
+        this.physics.add.collider(
+            player, 
+            activableWalls, 
+            onPlayerCollideWithActivableWall, 
+            null,
+            this
+        );
+
         this.physics.add.collider(
             player, 
             layer, 
@@ -307,11 +533,26 @@
             null,
             this
         );
+
+        this.physics.add.overlap(
+            player,
+            coins,
+            onPlayerCollideWithCoin,
+            null,
+            this
+        );
+    
+        destination = this.physics.add.sprite(
+            PLAYER_END_POINT.x,
+            PLAYER_END_POINT.y,
+            'destination'
+        );
+    
         this.anims.create({
             key: 'left',
             frames: this.anims.generateFrameNumbers('char', { start: 3, end: 5 }),
             frameRate: 10,
-            repeat: -1
+            repeat: 1
         });
     
         this.anims.create({
@@ -322,41 +563,73 @@
     
         this.anims.create({
             key: 'right',
-            frames: this.anims.generateFrameNumbers('char', { start: 6, end: 8 }),
+            frames: this.anims.generateFrameNumbers('char', { start: 6, end: 7 }),
             frameRate: 10,
-            repeat: -1
+            repeat: 1
         });
     
         this.anims.create({
             key: 'up',
-            frames: this.anims.generateFrameNumbers('char', { start: 9, end: 11 }),
+            frames: this.anims.generateFrameNumbers('char', { start: 9, end: 10 }),
+            frameRate: 10,
+            repeat: 1
+        });
+
+        this.anims.create({
+            key: 'down',
+            frames: this.anims.generateFrameNumbers('char', { start: 0, end: 1 }),
+            frameRate: 10,
+            repeat: 3
+        });
+
+        this.anims.create({
+            key: 'point',
+            frames: this.anims.generateFrameNumbers('destination', { start: 0, end: 7 }),
+            frameRate: 8,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'rotate',
+            frames: this.anims.generateFrameNumbers('coin', { start: 0, end: 5 }),
             frameRate: 10,
             repeat: -1
         });
 
         this.anims.create({
-            key: 'down',
-            frames: this.anims.generateFrameNumbers('char', { start: 0, end: 2 }),
+            key: 'switchon',
+            frames: this.anims.generateFrameNumbers('switch', { start: 0, end: 1 }),
             frameRate: 10,
-            repeat: -1
+            repeat: 0
         });
 
-        player.anims.play('turn', true);
-    }
-    
-    function update ()
-    {
-        if(
-            (isMoving)
-            && (player.x == destinationX)
-            && (player.y == destinationY)
-        )
-        {
-            player.setVelocity(0, 0);
-            isMoving = false;
+        this.anims.create({
+            key: 'switchoff',
+            frames: this.anims.generateFrameNumbers('switch', { start: 0, end: 0 }),
+            frameRate: 10,
+            repeat: 0
+        });
 
-            if(hasPlayerWon())
-                win();
+        destination.anims.play('point', true);
+        coins.playAnimation('rotate', true);
+        player.anims.play('turn', true);
+
+        deactivateWalls();
+
+        alert(
+            'Objetivos:\n'
+            + '\nColete todas as moedas e volte para o ponto de partida.\n'
+            + '\nDetalhes:\n'
+            + '\n1 - Mas cuidado, o chão parece ser escorregadio...'
+            + '\n2 - Há uma alavanca ali. O que será que ela faz?'
+        );
+    }
+
+    function update()
+    {
+        if((isMoving) && isPlayerAtXY(destinationX, destinationY))
+        {
+            isMoving = false;
         }
     }
 
