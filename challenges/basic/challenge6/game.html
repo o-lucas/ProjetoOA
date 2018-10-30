@@ -217,6 +217,7 @@
     const PLAYER_SPEED = 120;
 
     var coins;
+    var coinStack = [];
     var coinValue;
     const COINS_POS = [
         {x: 7*32 - 16, y: 2*32 - 16},
@@ -293,6 +294,7 @@
             }
 
             coinNumber++;
+            coinValue = coinStack.pop();
         });
 
         atributeCoinValue();
@@ -300,7 +302,7 @@
 
     function atributeCoinValue()
     {
-        coinValue = ((Phaser.Math.Between(1, 100) <= 50) ? 10 : 1);
+        coin
     }
 
     function reset()
@@ -387,6 +389,21 @@
     
     function create ()
     {
+	for(let i =  0; i < COINS_POS.length; i++)
+	    coinStack[i] = 5;
+
+        for(let i = 0; i < 4; i++)
+        {
+             let pos = Phaser.Math.Between(0, COINS_POS.length);
+
+             while(coinStack[pos] === 10)
+                 pos = Phaser.Math.Between(0, COINS_POS.length)
+
+             coinStack[pos] = 10;
+        }
+
+	coinValue = coinStack.pop();
+
         const map = this.make.tilemap({
             data: level,
             tileWidth: TILE_WIDTH,

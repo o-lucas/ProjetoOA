@@ -163,14 +163,14 @@
     };
 
     var level = [
-        [4, 4, 4, 4, 4, 4, 4, 4],
-        [4, 6, 4, 8, 8, 8, 8, 4],
-        [4, 8, 4, 4, 4, 4, 8, 4],
-        [4, 8, 4, 4, 4, 4, 8, 4],
-        [4, 8, 8, 8, 8, 8, 8, 4],
-        [4, 8, 4, 8, 8, 4, 8, 4],
-        [4, 8, 8, 8, 8, 8, 8, 4],
-        [4, 4, 4, 4, 4, 4, 4, 4]
+        [8, 4, 8, 8, 8, 8, 8, 8],
+        [8, 8, 4, 8, 8, 8, 8, 4],
+        [8, 8, 8, 8, 4, 8, 8, 8],
+        [8, 8, 8, 4, 4, 4, 8, 8],
+        [8, 8, 8, 4, 8, 8, 8, 8],
+        [4, 8, 8, 4, 8, 8, 8, 8],
+        [8, 8, 8, 8, 8, 8, 8, 8],
+        [4, 8, 8, 8, 8, 4, 4, 8]
     ];
     const MAP_ROWS = level[0].length;
     const MAP_COLS = level.length;
@@ -185,25 +185,26 @@
     var isSliding = false;
     var destinationX;
     var destinationY;
-    const PLAYER_SPAWN_POINT = {x: 2*32-16, y: 2*32-16};
-    const PLAYER_END_POINT = {x: 2*32-16, y: 2*32-16};
+    const PLAYER_SPAWN_POINT = {x: 1*32-16, y: 1*32-16};
+    const PLAYER_END_POINT = {x: 8*32-16, y: 1*32-16};
     const PLAYER_SPEED = 120;
     const PLAYER_DIRECTION = {UP: 1, DOWN: 2, LEFT: 3, RIGHT: 4};
 
     const COINS_POS = [
-        {x: 3*32 - 16, y: 5*32 - 16},
-        {x: 2*32 - 16, y: 7*32 - 16},
-        {x: 7*32 - 16, y: 7*32 - 16},
-        {x: 7*32 - 16, y: 2*32 - 16},
-        {x: 5*32 - 16, y: 6*32 - 16},
+        {x: 2*32 - 16, y: 5*32 - 16},
+        {x: 3*32 - 16, y: 3*32 - 16},
+        {x: 4*32 - 16, y: 1*32 - 16},
+        {x: 5*32 - 16, y: 5*32 - 16},
+        {x: 5*32 - 16, y: 8*32 - 16},
         {x: 6*32 - 16, y: 5*32 - 16},
+        {x: 8*32 - 16, y: 5*32 - 16}
     ];
 
     var destination;
     
     var wallSwitch;
     var wallSwitchState = false;
-    const WALL_SWITCH_POS = {x: 4*32 - 16 , y: 2*32 - 16 };
+    const WALL_SWITCH_POS = {x: 3*32 - 16 , y: 1*32 - 16 };
     const WALL_SWITCH_TOGGLEABLE_POS = {x: 5*32 - 16, y: 2*32 - 16 };
 
     var activableWalls;
@@ -305,8 +306,15 @@
 
 	function onPlayerCollideWithCoin(player, coin)
 	{
-        coin.disableBody(true, true);
-        coinsCollected++;
+		coin.disableBody(true, true);
+		coinsCollected++;
+		
+		if(coinsCollected === COINS_POS.length)
+		{
+			wallSwitch.anims.play('switchoff', true);
+			deactivateWalls();
+			wallSwitchState = false;
+		}
 	}
 
     function onPlayerCollideWithLayer(player, layer)
