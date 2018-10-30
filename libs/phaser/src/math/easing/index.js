@@ -4,6 +4,7 @@
  * @license      {@link https://github.com/photonstorm/phaser/blob/master/license.txt|MIT License}
  */
 
+<<<<<<< HEAD
 /**
  * @namespace Phaser.Math.Easing
  */
@@ -24,3 +25,25 @@ module.exports = {
     Stepped: require('./stepped')
 
 };
+=======
+/**
+ * @namespace Phaser.Math.Easing
+ */
+
+module.exports = {
+
+    Back: require('./back'),
+    Bounce: require('./bounce'),
+    Circular: require('./circular'),
+    Cubic: require('./cubic'),
+    Elastic: require('./elastic'),
+    Expo: require('./expo'),
+    Linear: require('./linear'),
+    Quadratic: require('./quadratic'),
+    Quartic: require('./quartic'),
+    Quintic: require('./quintic'),
+    Sine: require('./sine'),
+    Stepped: require('./stepped')
+
+};
+>>>>>>> phazer-version

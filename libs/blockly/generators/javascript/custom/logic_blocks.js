@@ -1,9 +1,5 @@
 'use strict';
 
-goog.provide('Blockly.JavaScript.logic');
-
-goog.require('Blockly.JavaScript');
-
 Blockly.JavaScript['logic_boolean'] = function(block) {
     var code = block.getFieldValue('bool');
     return [code, Blockly.JavaScript.ORDER_ATOMIC];

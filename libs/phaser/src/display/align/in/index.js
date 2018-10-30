@@ -4,6 +4,7 @@
  * @license      {@link https://github.com/photonstorm/phaser/blob/master/license.txt|MIT License}
  */
 
+<<<<<<< HEAD
 /**
  * @namespace Phaser.Display.Align.In
  */
@@ -22,3 +23,23 @@ module.exports = {
     TopRight: require('./TopRight')
 
 };
+=======
+/**
+ * @namespace Phaser.Display.Align.In
+ */
+
+module.exports = {
+
+    BottomCenter: require('./BottomCenter'),
+    BottomLeft: require('./BottomLeft'),
+    BottomRight: require('./BottomRight'),
+    Center: require('./Center'),
+    LeftCenter: require('./LeftCenter'),
+    QuickSet: require('./QuickSet'),
+    RightCenter: require('./RightCenter'),
+    TopCenter: require('./TopCenter'),
+    TopLeft: require('./TopLeft'),
+    TopRight: require('./TopRight')
+
+};
+>>>>>>> phazer-version

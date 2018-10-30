@@ -4,6 +4,7 @@
  * @license      {@link https://github.com/photonstorm/phaser/blob/master/license.txt|MIT License}
  */
 
+<<<<<<< HEAD
 /**
  * Returns the right coordinate from the bounds of the Game Object.
  *
@@ -20,3 +21,21 @@ var GetRight = function (gameObject)
 };
 
 module.exports = GetRight;
+=======
+/**
+ * Returns the right coordinate from the bounds of the Game Object.
+ *
+ * @function Phaser.Display.Bounds.GetRight
+ * @since 3.0.0
+ *
+ * @param {Phaser.GameObjects.GameObject} gameObject - The Game Object to get the bounds value from.
+ *
+ * @return {number} The right coordinate of the bounds of the Game Object.
+ */
+var GetRight = function (gameObject)
+{
+    return (gameObject.x + gameObject.width) - (gameObject.width * gameObject.originX);
+};
+
+module.exports = GetRight;
+>>>>>>> phazer-version

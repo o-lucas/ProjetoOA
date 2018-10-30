@@ -4,6 +4,7 @@
  * @license      {@link https://github.com/photonstorm/phaser/blob/master/license.txt|MIT License}
  */
 
+<<<<<<< HEAD
 /**
  * @namespace Phaser.Cache
  */
@@ -14,3 +15,15 @@ module.exports = {
     CacheManager: require('./CacheManager')
 
 };
+=======
+/**
+ * @namespace Phaser.Cache
+ */
+
+module.exports = {
+
+    BaseCache: require('./BaseCache'),
+    CacheManager: require('./CacheManager')
+
+};
+>>>>>>> phazer-version

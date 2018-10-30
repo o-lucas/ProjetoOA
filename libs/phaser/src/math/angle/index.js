@@ -4,6 +4,7 @@
  * @license      {@link https://github.com/photonstorm/phaser/blob/master/license.txt|MIT License}
  */
 
+<<<<<<< HEAD
 /**
  * @namespace Phaser.Math.Angle
  */
@@ -22,3 +23,23 @@ module.exports = {
     WrapDegrees: require('./WrapDegrees')
 
 };
+=======
+/**
+ * @namespace Phaser.Math.Angle
+ */
+
+module.exports = {
+
+    Between: require('./Between'),
+    BetweenY: require('./BetweenY'),
+    BetweenPoints: require('./BetweenPoints'),
+    BetweenPointsY: require('./BetweenPointsY'),
+    Reverse: require('./Reverse'),
+    RotateTo: require('./RotateTo'),
+    ShortestBetween: require('./ShortestBetween'),
+    Normalize: require('./Normalize'),
+    Wrap: require('./Wrap'),
+    WrapDegrees: require('./WrapDegrees')
+
+};
+>>>>>>> phazer-version

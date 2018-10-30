@@ -13,3 +13,7 @@ Blockly.JavaScript["controls_moveLeft"] = function(block){
 Blockly.JavaScript["controls_moveRight"] = function(block){
     return 'moveRight();';
 }
+
+Blockly.JavaScript["controls_takeCoin"] = function(block){
+    return 'takeCoin();';
+}

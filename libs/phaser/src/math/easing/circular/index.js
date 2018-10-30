@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /**
  * @author       Richard Davey <rich@photonstorm.com>
  * @copyright    2018 Photon Storm Ltd.
@@ -15,3 +16,22 @@ module.exports = {
     InOut: require('./InOut')
 
 };
+=======
+/**
+ * @author       Richard Davey <rich@photonstorm.com>
+ * @copyright    2018 Photon Storm Ltd.
+ * @license      {@link https://github.com/photonstorm/phaser/blob/master/license.txt|MIT License}
+ */
+
+/**
+ * @namespace Phaser.Math.Easing.Circular
+ */
+
+module.exports = {
+
+    In: require('./In'),
+    Out: require('./Out'),
+    InOut: require('./InOut')
+
+};
+>>>>>>> phazer-version

@@ -4,6 +4,7 @@
  * @license      {@link https://github.com/photonstorm/phaser/blob/master/license.txt|MIT License}
  */
 
+<<<<<<< HEAD
 /**
  * @namespace Phaser.Utils
  */
@@ -15,3 +16,16 @@ module.exports = {
     String: require('./string/')
 
 };
+=======
+/**
+ * @namespace Phaser.Utils
+ */
+
+module.exports = {
+
+    Array: require('./array/'),
+    Objects: require('./object/'),
+    String: require('./string/')
+
+};
+>>>>>>> phazer-version

@@ -4,6 +4,7 @@
  * @license      {@link https://github.com/photonstorm/phaser/blob/master/license.txt|MIT License}
  */
 
+<<<<<<< HEAD
 /**
  * @namespace Phaser.Create
  */
@@ -14,3 +15,15 @@ module.exports = {
     Palettes: require('./palettes')
 
 };
+=======
+/**
+ * @namespace Phaser.Create
+ */
+
+module.exports = {
+  
+    GenerateTexture: require('./GenerateTexture'),
+    Palettes: require('./palettes')
+
+};
+>>>>>>> phazer-version

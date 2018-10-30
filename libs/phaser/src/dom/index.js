@@ -4,6 +4,7 @@
  * @license      {@link https://github.com/photonstorm/phaser/blob/master/license.txt|MIT License}
  */
 
+<<<<<<< HEAD
 /**
  * @namespace Phaser.DOM
  */
@@ -17,3 +18,18 @@ module.exports = {
     RequestAnimationFrame: require('./RequestAnimationFrame')
 
 };
+=======
+/**
+ * @namespace Phaser.DOM
+ */
+
+module.exports = {
+
+    AddToDOM: require('./AddToDOM'),
+    DOMContentLoaded: require('./DOMContentLoaded'),
+    ParseXML: require('./ParseXML'),
+    RemoveFromDOM: require('./RemoveFromDOM'),
+    RequestAnimationFrame: require('./RequestAnimationFrame')
+
+};
+>>>>>>> phazer-version

@@ -4,6 +4,7 @@
  * @license      {@link https://github.com/photonstorm/phaser/blob/master/license.txt|MIT License}
  */
 
+<<<<<<< HEAD
 /**
  * @namespace Phaser.Time
  */
@@ -14,3 +15,15 @@ module.exports = {
     TimerEvent: require('./TimerEvent')
 
 };
+=======
+/**
+ * @namespace Phaser.Time
+ */
+
+module.exports = {
+
+    Clock: require('./Clock'),
+    TimerEvent: require('./TimerEvent')
+
+};
+>>>>>>> phazer-version
