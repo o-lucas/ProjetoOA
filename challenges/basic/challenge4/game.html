@@ -220,12 +220,14 @@
         window.setTimeout(reset, 400);
     }
 
-    function moveUp(nTiles)
+    function moveUp(nTiles=0)
     {
-        if(nTiles <= 0)
+        if(!isNaturalNumber(nTiles))
+        {
+            alert(`${nTiles} não é ℕ*`);
+            reset();
             return;
-
-        nTiles = Math.floor(nTiles);
+        }
 
         destinationX = player.x;
         destinationY = player.y - TILE_HEIGHT*nTiles;
@@ -235,12 +237,14 @@
         player.anims.play('up', true);
     }
     
-    function moveDown(nTiles)
+    function moveDown(nTiles=0)
     {
-        if(nTiles <= 0)
+        if(!isNaturalNumber(nTiles))
+        {
+            alert(`${nTiles} não é ℕ*`);
+            reset();
             return;
-
-        nTiles = Math.floor(nTiles);
+        }
 
         destinationX = player.x;
         destinationY = player.y + TILE_HEIGHT*nTiles;
@@ -251,12 +255,14 @@
         player.anims.play('down', true);
     }
     
-    function moveLeft(nTiles)
+    function moveLeft(nTiles=0)
     {
-        if(nTiles <= 0)
+        if(!isNaturalNumber(nTiles))
+        {
+            alert(`${nTiles} não é ℕ*`);
+            reset();
             return;
-
-        nTiles = Math.floor(nTiles);
+        }
 
         destinationX = player.x - TILE_WIDTH*nTiles;
         destinationY = player.y;
@@ -266,12 +272,14 @@
         player.anims.play('left', true);
     }
     
-    function moveRight(nTiles)
+    function moveRight(nTiles=0)
     {
-        if(nTiles <= 0)
+        if(!isNaturalNumber(nTiles))
+        {
+            alert(`${nTiles} não é ℕ*`);
+            reset();
             return;
-
-        nTiles = Math.floor(nTiles);
+        }
 
         destinationX = player.x + TILE_WIDTH*nTiles;
         destinationY = player.y;
@@ -279,6 +287,11 @@
     
         player.setVelocityX(PLAYER_SPEED);
         player.anims.play('right', true);
+    }
+
+    function isNaturalNumber(number)
+    {
+        return number > 0 && Math.floor(number) == number;
     }
     
     function preload ()
