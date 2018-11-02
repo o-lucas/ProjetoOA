@@ -260,7 +260,7 @@
 
     function win()
     {
-        alert('!!!');
+        player.anims.play('celebrate', true);
     }
 
     function isPlayerAt(x, y)
@@ -519,6 +519,13 @@
             key: 'down',
             frames: this.anims.generateFrameNumbers('char', { start: 0, end: 2 }),
             frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'celebrate',
+            frames: this.anims.generateFrameNumbers('char', { start: 0, end: 9 }),
+            frameRate: 18,
             repeat: -1
         });
 
