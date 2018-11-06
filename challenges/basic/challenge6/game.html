@@ -190,14 +190,14 @@
     };
 
     var level = [
-        [0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 2, 1, 1, 1, 1, 1, 0],
-        [0, 1, 1, 1, 1, 1, 1, 0],
-        [0, 1, 1, 1, 1, 1, 1, 0],
-        [0, 1, 1, 1, 1, 1, 1, 0],
-        [0, 1, 1, 1, 1, 1, 1, 0],
-        [0, 1, 1, 1, 1, 1, 1, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0]
+        [4, 4, 4, 4, 4, 4, 4, 4],
+        [4, 6, 4, 5, 5, 5, 4, 4],
+        [4, 5, 4, 5, 4, 5, 4, 4],
+        [4, 5, 4, 5, 4, 5, 4, 4],
+        [4, 5, 4, 5, 4, 5, 4, 4],
+        [4, 5, 4, 5, 4, 5, 4, 4],
+        [4, 5, 5, 5, 4, 5, 5, 5],
+        [4, 4, 4, 4, 4, 4, 4, 4]
     ];
     const MAP_ROWS = level[0].length;
     const MAP_COLS = level.length;
@@ -213,20 +213,19 @@
     var destinationX;
     var destinationY;
     const PLAYER_SPAWN_POINT = {x: 2*32-16, y: 2*32-16};
-    const PLAYER_END_POINT = {x: 2*32-16, y: 2*32-16};
+    const PLAYER_END_POINT = {x: 8*32-16, y: 7*32-16};
     const PLAYER_SPEED = 120;
 
     var coins;
     var coinStack = [];
     var coinValue;
     const COINS_POS = [
-        {x: 7*32 - 16, y: 2*32 - 16},
-        {x: 7*32 - 16, y: 7*32 - 16},
         {x: 2*32 - 16, y: 7*32 - 16},
-        {x: 5*32 - 16, y: 4*32 - 16},
-        {x: 4*32 - 16, y: 4*32 - 16},
-        {x: 5*32 - 16, y: 5*32 - 16},
-        {x: 4*32 - 16, y: 5*32 - 16}
+        {x: 4*32 - 16, y: 7*32 - 16},
+        {x: 4*32 - 16, y: 2*32 - 16},
+        {x: 6*32 - 16, y: 2*32 - 16},
+        {x: 6*32 - 16, y: 7*32 - 16},
+        {x: 8*32 - 16, y: 7*32 - 16},
     ];
     var playerMoney;
     var playerMoneyLabel;
@@ -291,13 +290,11 @@
                 child.disableBody(true, true);
                 playerMoney += coinValue;
                 playerMoneyLabel.setText("$" + playerMoney);
+                atributeCoinValue();
             }
 
             coinNumber++;
-            coinValue = coinStack.pop();
         });
-
-        atributeCoinValue();
     }
 
     function atributeCoinValue()
@@ -307,7 +304,7 @@
 
     function generateCoinValueStack()
     {
-        for(let i =  0; i < COINS_POS.length; i++)
+        for(let i = 0; i < COINS_POS.length; i++)
             coinStack[i] = 5;
 
         for(let i = 0; i < 4; i++)
@@ -319,6 +316,8 @@
 
              coinStack[pos] = 10;
         }
+
+        console.log(coinStack);
     }
 
     function reset()
@@ -331,6 +330,7 @@
         player.anims.play('turn', true);
 
         spawnCoins();
+        generateCoinValueStack();
         atributeCoinValue();
         playerMoney = 0;
         playerMoneyLabel.setText('$0');
@@ -546,8 +546,6 @@
         destination.anims.play('point', true);
         coins.playAnimation('rotate', true);
         player.anims.play('turn', true);
-
-        atributeCoinValue();
     }
     
     function update()
@@ -562,8 +560,6 @@
             player.setVelocity(0, 0);
             player.anims.play('turn', true);
         }
-
-        console.log(coinValue);
     }
 
 </script>
