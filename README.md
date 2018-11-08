@@ -8,6 +8,15 @@
 ├── index.html
 ├── level1.html
 ├── levels.html
+├── challenges                Desafios
+│   ├── assets                Mídia usada nos desafios
+│   └── basic                 Nível 1
+│       ├── challenge1
+│       ├── challenge2
+│       ├── challenge3
+│       ├── challenge4
+│       ├── challenge5
+│       └── challenge6
 ├── libs                      Dependências
 │   ├── blockly               Blockly
 │   │   ├── blocks            Blocos pré definidos

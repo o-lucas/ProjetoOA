@@ -4,7 +4,6 @@
  * @license      {@link https://github.com/photonstorm/phaser/blob/master/license.txt|MIT License}
  */
 
-<<<<<<< HEAD
 /**
  * @namespace Phaser.Tilemaps.Parsers
  */
@@ -19,19 +18,3 @@ module.exports = {
     Tiled: require('./tiled/ParseJSONTiled')
 
 };
-=======
-/**
- * @namespace Phaser.Tilemaps.Parsers
- */
-
-module.exports = {
-
-    Parse: require('./Parse'),
-    Parse2DArray: require('./Parse2DArray'),
-    ParseCSV: require('./ParseCSV'),
-
-    Impact: require('./impact/ParseWeltmeister'),
-    Tiled: require('./tiled/ParseJSONTiled')
-
-};
->>>>>>> phazer-version

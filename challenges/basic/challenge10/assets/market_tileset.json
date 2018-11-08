@@ -1,0 +1,12 @@
+{ "columns":16,
+ "image":"market.png",
+ "imageheight":768,
+ "imagewidth":768,
+ "margin":0,
+ "name":"market",
+ "spacing":0,
+ "tilecount":256,
+ "tileheight":48,
+ "tilewidth":48,
+ "type":"tileset"
+}

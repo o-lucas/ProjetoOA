@@ -4,7 +4,6 @@
  * @license      {@link https://github.com/photonstorm/phaser/blob/master/license.txt|MIT License}
  */
 
-<<<<<<< HEAD
 var Factorial = require('./Factorial');
 
 /**
@@ -24,24 +23,3 @@ var Bernstein = function (n, i)
 };
 
 module.exports = Bernstein;
-=======
-var Factorial = require('./Factorial');
-
-/**
- * [description]
- *
- * @function Phaser.Math.Bernstein
- * @since 3.0.0
- *
- * @param {number} n - [description]
- * @param {number} i - [description]
- *
- * @return {number} [description]
- */
-var Bernstein = function (n, i)
-{
-    return Factorial(n) / Factorial(i) / Factorial(n - i);
-};
-
-module.exports = Bernstein;
->>>>>>> phazer-version

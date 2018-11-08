@@ -204,7 +204,7 @@
 
     function win()
     {
-        alert('!!!');
+        player.anims.play('celebrate', true);
     }
 
     function reset()
@@ -298,7 +298,6 @@
 
         const tiles = map.addTilesetImage('level');
         const layer = map.createStaticLayer(0, tiles, 0, 0);
-        const layer2 = map.createStaticLayer(2, tiles, 0, 0);
 
         layer.setCollision(0);
     
@@ -353,6 +352,13 @@
             key: 'down',
             frames: this.anims.generateFrameNumbers('char', { start: 0, end: 2 }),
             frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'celebrate',
+            frames: this.anims.generateFrameNumbers('char', { start: 0, end: 9 }),
+            frameRate: 18,
             repeat: -1
         });
 		

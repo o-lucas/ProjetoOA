@@ -190,14 +190,14 @@
     };
 
     var level = [
-        [0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 2, 1, 1, 1, 1, 1, 0],
-        [0, 1, 1, 1, 1, 1, 1, 0],
-        [0, 1, 1, 1, 1, 1, 1, 0],
-        [0, 1, 1, 1, 1, 1, 1, 0],
-        [0, 1, 1, 1, 1, 1, 1, 0],
-        [0, 1, 1, 1, 1, 1, 1, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0]
+        [4, 4, 4, 4, 4, 4, 4, 4],
+        [4, 6, 4, 5, 5, 5, 4, 4],
+        [4, 5, 4, 5, 4, 5, 4, 4],
+        [4, 5, 4, 5, 4, 5, 4, 4],
+        [4, 5, 4, 5, 4, 5, 4, 4],
+        [4, 5, 4, 5, 4, 5, 4, 4],
+        [4, 5, 5, 5, 4, 5, 5, 5],
+        [4, 4, 4, 4, 4, 4, 4, 4]
     ];
     const MAP_ROWS = level[0].length;
     const MAP_COLS = level.length;
@@ -213,20 +213,19 @@
     var destinationX;
     var destinationY;
     const PLAYER_SPAWN_POINT = {x: 2*32-16, y: 2*32-16};
-    const PLAYER_END_POINT = {x: 2*32-16, y: 2*32-16};
+    const PLAYER_END_POINT = {x: 8*32-16, y: 7*32-16};
     const PLAYER_SPEED = 120;
 
     var coins;
     var coinStack = [];
     var coinValue;
     const COINS_POS = [
-        {x: 7*32 - 16, y: 2*32 - 16},
-        {x: 7*32 - 16, y: 7*32 - 16},
         {x: 2*32 - 16, y: 7*32 - 16},
-        {x: 5*32 - 16, y: 4*32 - 16},
-        {x: 4*32 - 16, y: 4*32 - 16},
-        {x: 5*32 - 16, y: 5*32 - 16},
-        {x: 4*32 - 16, y: 5*32 - 16}
+        {x: 4*32 - 16, y: 7*32 - 16},
+        {x: 4*32 - 16, y: 2*32 - 16},
+        {x: 6*32 - 16, y: 2*32 - 16},
+        {x: 6*32 - 16, y: 7*32 - 16},
+        {x: 8*32 - 16, y: 7*32 - 16},
     ];
     var playerMoney;
     var playerMoneyLabel;
@@ -260,7 +259,7 @@
 
     function win()
     {
-        alert('!!!');
+        player.anims.play('celebrate', true);
     }
 
     function isPlayerAt(x, y)
@@ -291,18 +290,34 @@
                 child.disableBody(true, true);
                 playerMoney += coinValue;
                 playerMoneyLabel.setText("$" + playerMoney);
+                atributeCoinValue();
             }
 
             coinNumber++;
-            coinValue = coinStack.pop();
         });
-
-        atributeCoinValue();
     }
 
     function atributeCoinValue()
     {
-        coin
+        coinValue = coinStack.pop();
+    }
+
+    function generateCoinValueStack()
+    {
+        for(let i = 0; i < COINS_POS.length; i++)
+            coinStack[i] = 5;
+
+        for(let i = 0; i < 4; i++)
+        {
+             let pos = Phaser.Math.Between(0, COINS_POS.length);
+
+             while(coinStack[pos] === 10)
+                 pos = Phaser.Math.Between(0, COINS_POS.length)
+
+             coinStack[pos] = 10;
+        }
+
+        console.log(coinStack);
     }
 
     function reset()
@@ -315,6 +330,7 @@
         player.anims.play('turn', true);
 
         spawnCoins();
+        generateCoinValueStack();
         atributeCoinValue();
         playerMoney = 0;
         playerMoneyLabel.setText('$0');
@@ -326,8 +342,15 @@
         window.setTimeout(reset, 400);
     }
 
-    function moveUp(nTiles=1)
+    function moveUp(nTiles=0)
     {
+        if(!isNaturalNumber(nTiles))
+        {
+            alert(`${nTiles} não é ℕ*`);
+            reset();
+            return;
+        }
+
         destinationX = player.x;
         destinationY = player.y - TILE_HEIGHT*nTiles;
         isMoving = true;
@@ -336,8 +359,15 @@
         player.anims.play('up', true);
     }
 
-    function moveDown(nTiles=1)
+    function moveDown(nTiles=0)
     {
+        if(!isNaturalNumber(nTiles))
+        {
+            alert(`${nTiles} não é ℕ*`);
+            reset();
+            return;
+        }
+
         destinationX = player.x;
         destinationY = player.y + TILE_HEIGHT*nTiles;
         isMoving = true;
@@ -346,8 +376,15 @@
         player.anims.play('down', true);
     }
     
-    function moveLeft(nTiles=1)
+    function moveLeft(nTiles=0)
     {
+        if(!isNaturalNumber(nTiles))
+        {
+            alert(`${nTiles} não é ℕ*`);
+            reset();
+            return;
+        }
+
         destinationX = player.x - TILE_WIDTH*nTiles;
         destinationY = player.y;
         isMoving = true;
@@ -356,15 +393,26 @@
         player.anims.play('left', true);
     }
     
-    function moveRight(nTiles=1)
+    function moveRight(nTiles=0)
     {
+        if(!isNaturalNumber(nTiles))
+        {
+            alert(`${nTiles} não é ℕ*`);
+            reset();
+            return;
+        }
+
         destinationX = player.x + TILE_WIDTH*nTiles;
         destinationY = player.y;
         isMoving = true;
     
         player.setVelocityX(PLAYER_SPEED);
         player.anims.play('right', true);
+    }
 
+    function isNaturalNumber(number)
+    {
+        return number > 0 && Math.floor(number) == number;
     }
     
     function preload ()
@@ -387,22 +435,10 @@
         );
     }
     
-    function create ()
+    function create()
     {
-	for(let i =  0; i < COINS_POS.length; i++)
-	    coinStack[i] = 5;
-
-        for(let i = 0; i < 4; i++)
-        {
-             let pos = Phaser.Math.Between(0, COINS_POS.length);
-
-             while(coinStack[pos] === 10)
-                 pos = Phaser.Math.Between(0, COINS_POS.length)
-
-             coinStack[pos] = 10;
-        }
-
-	coinValue = coinStack.pop();
+        generateCoinValueStack();
+        atributeCoinValue();
 
         const map = this.make.tilemap({
             data: level,
@@ -487,6 +523,13 @@
         });
 
         this.anims.create({
+            key: 'celebrate',
+            frames: this.anims.generateFrameNumbers('char', { start: 0, end: 9 }),
+            frameRate: 18,
+            repeat: -1
+        });
+
+        this.anims.create({
             key: 'point',
             frames: this.anims.generateFrameNumbers('destination', { start: 0, end: 7 }),
             frameRate: 8,
@@ -503,8 +546,6 @@
         destination.anims.play('point', true);
         coins.playAnimation('rotate', true);
         player.anims.play('turn', true);
-
-        atributeCoinValue();
     }
     
     function update()
@@ -519,8 +560,6 @@
             player.setVelocity(0, 0);
             player.anims.play('turn', true);
         }
-
-        console.log(coinValue);
     }
 
 </script>

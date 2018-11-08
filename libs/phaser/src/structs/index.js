@@ -4,7 +4,6 @@
  * @license      {@link https://github.com/photonstorm/phaser/blob/master/license.txt|MIT License}
  */
 
-<<<<<<< HEAD
 /**
  * @namespace Phaser.Structs
  */
@@ -18,18 +17,3 @@ module.exports = {
     Set: require('./Set')
 
 };
-=======
-/**
- * @namespace Phaser.Structs
- */
-
-module.exports = {
-
-    List: require('./List'),
-    Map: require('./Map'),
-    ProcessQueue: require('./ProcessQueue'),
-    RTree: require('./RTree'),
-    Set: require('./Set')
-
-};
->>>>>>> phazer-version

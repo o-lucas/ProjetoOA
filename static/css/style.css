@@ -1,14 +1,23 @@
 html, body{
     height: 100%;
+    width: 100%;
     margin: 0 auto;
     background-color: #f5f5f5;
 }
 
 #codeDiv{
+    height: 100%; 
+    width: 30%; 
+    float: left; 
     background-color: #f8f8f8;
     font-family: monospace; 
     white-space: pre-wrap;
     border-right: 1px solid #d3d3d3;
+}
+#gameDiv{
+    height: 100%;
+    width: 19.9%;
+    float: left;
 }
 
 #gamePreview{

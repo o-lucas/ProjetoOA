@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous">
     <style>
+        html{
+            background-color: #FFF;
+        }
         .card>button {
             padding: 5px;
             border-bottom-left-radius: 2px;
@@ -18,13 +21,40 @@
             border: none;
         }
 
+        .card-body {
+            font-size: 12px;
+        }
+
+        .card{
+            height: 100%;
+        }
+
         .level-1 {
             background-color: #A7DDA7;
             color: #398689;
         }
 
-        button{
+        button {
             background-color: #398689;
+        }
+
+        @keyframes highlight{
+            0%{
+                border-color: #78be97;
+            }
+            50%{
+                border-color: #0b476d;
+            }
+            100%{
+                border-color: #a7dda7;
+            }
+        }
+
+        #final{
+            animation-name: highlight;
+            animation-iteration-count: infinite;
+            animation-duration: 1.5s;
+            border-width: 2px;
         }
     </style>
 </head>
@@ -43,33 +73,37 @@
                     <li class="nav-item">
                         <a class="nav-link" href="tutorial.html">Tutorial</span></a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="sobre.html">Sobre</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contato.html">Contato</span></a>
+                    </li>
                 </ul>
             </div>
         </nav>
     </div>
     <div class="container">
         <div class="row py-3">
-
             <div class="col-sm">
                 <div class="card level-1">
                     <div class="card-body">
                         <h5>Desafio 1</h4>
                             <hr>
                             <div>
-                                Descrição desafio 1
+                                Grama com movimentação simples
                             </div>
                     </div>
                     <button onclick="location.href='challenges/basic/challenge1/game.html'">Continuar →</button>
                 </div>
             </div>
-
             <div class="col-sm">
                 <div class="card level-1">
                     <div class="card-body">
                         <h5>Desafio 2</h5>
                         <hr>
                         <div>
-                            Descrição nível 2
+                            Grama com movimentação simples, porém percurso elaborado.
                         </div>
                     </div>
                     <button onclick="location.href='challenges/basic/challenge2/game.html'">Continuar →</button>
@@ -81,7 +115,7 @@
                     <div class="card-body">
                         <h5>Desafio 3</h5>
                         <hr>
-                        Descrição desafio 3
+                        Grama com movimentação parametrizada
                     </div>
                     <button onclick="location.href='challenges/basic/challenge3/game.html'">Continuar →</button>
                 </div>
@@ -93,7 +127,7 @@
                     <div class="card-body">
                         <h5>Desafio 4</h5>
                         <hr>
-                        Descrição desafio 4
+                        Gelo com movimentação parametrizada e labirinto.
                     </div>
                     <button onclick="location.href='challenges/basic/challenge4/game.html'">Continuar →</button>
                 </div>
@@ -104,7 +138,7 @@
                     <div class="card-body">
                         <h5>Desafio 5</h5>
                         <hr>
-                        Descrição desafio 5
+                        Gelo com movimentação parametrizada e coleta de moeda.
                     </div>
                     <button onclick="location.href='challenges/basic/challenge5/game.html'">Continuar →</button>
                 </div>
@@ -115,26 +149,87 @@
                     <div class="card-body">
                         <h5>Desafio 6</h5>
                         <hr>
-                        Descrição desafio 6
+                        Gelo com movimentação parametrizada e coleta de moeda somente com valor específico.
                     </div>
                     <button onclick="location.href='challenges/basic/challenge6/game.html'">Continuar →</button>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-8">
+            <div class="col-sm">
                 <div class="card level-1">
                     <div class="card-body">
-                        <h3>Desafio final</h3>
+                        <h5>Desafio 7</h5>
+                        <hr>
+                        Carro com movimentação parametrizada e semáforo.
+                    </div>
+                    <button onclick="location.href='challenges/basic/challenge7/'">Continuar →</button>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="card level-1">
+                    <div class="card-body">
+                        <h5>Desafio 8</h5>
+                        <hr>
+                        Carro com movimentação parametrizada, semáforo e combustível limitado.
+                    </div>
+                    <button onclick="location.href='challenges/basic/challenge8/'">Continuar →</button>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="card level-1">
+                    <div class="card-body">
+                        <h5>Desafio 9</h5>
+                        <hr>
+                        Carro com movimentação parametrizada, semáforo e combustível limitado, somente para um caminho mínimo.
+                    </div>
+                    <button onclick="location.href='challenges/basic/challenge9/'">Continuar →</button>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="card level-1">
+                    <div class="card-body">
+                        <h5>Desafio 10</h5>
+                        <hr>
+                        Compras na feira para fechar uma lista de itens específicos.
+                    </div>
+                    <button onclick="location.href='challenges/basic/challenge10/'">Continuar →</button>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="card level-1">
+                    <div class="card-body">
+                        <h5>Desafio 11</h5>
+                        <hr>
+                        Compras na feira para fechar uma lista com itens de setores específicos gastando o mínimo
+                        possível.
+                    </div>
+                    <button onclick="location.href='challenges/basic/challenge11/'">Continuar →</button>
+                </div>
+            </div>
+
+            <div class="col-sm">
+                <div class="card level-1">
+                    <div class="card-body">
+                        <h5>Desafio 12</h5>
+                        <hr>
+                        Compras na feira para fechar uma lista de itens específicos, porém, gastando no máximo X e o comprador é intolerante a lactose, então ele não pode comprar itens com derivados de leite.
+                    </div>
+                    <button onclick="location.href='challenges/basic/challenge12/'">Continuar →</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row py-3">
+            <div class="col-sm-8">
+                <div class="card level-1" id="final">
+                    <div class="card-body" style="border-width: 5px;">
+                        <h3>Missão final - Nível 1</h3>
                         <hr>
                         Descrição desafio final
                     </div>
                     <button>Continuar →</button>
                 </div>
-            </div>
-
-            <div class="col-sm-4">
-
             </div>
         </div>
     </div>

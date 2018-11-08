@@ -4,7 +4,6 @@
  * @license      {@link https://github.com/photonstorm/phaser/blob/master/license.txt|MIT License}
  */
 
-<<<<<<< HEAD
 var Contains = require('./Contains');
 
 /**
@@ -24,24 +23,3 @@ var ContainsPoint = function (polygon, point)
 };
 
 module.exports = ContainsPoint;
-=======
-var Contains = require('./Contains');
-
-/**
- * [description]
- *
- * @function Phaser.Geom.Polygon.ContainsPoint
- * @since 3.0.0
- *
- * @param {Phaser.Geom.Polygon} polygon - [description]
- * @param {Phaser.Geom.Point} point - [description]
- *
- * @return {boolean} [description]
- */
-var ContainsPoint = function (polygon, point)
-{
-    return Contains(polygon, point.x, point.y);
-};
-
-module.exports = ContainsPoint;
->>>>>>> phazer-version

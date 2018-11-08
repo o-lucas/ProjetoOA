@@ -4,7 +4,6 @@
  * @license      {@link https://github.com/photonstorm/phaser/blob/master/license.txt|MIT License}
  */
 
-<<<<<<< HEAD
 /**
  * @namespace Phaser.Data
  */
@@ -15,15 +14,3 @@ module.exports = {
     DataManagerPlugin: require('./DataManagerPlugin')
 
 };
-=======
-/**
- * @namespace Phaser.Data
- */
-
-module.exports = {
-
-    DataManager: require('./DataManager'),
-    DataManagerPlugin: require('./DataManagerPlugin')
-
-};
->>>>>>> phazer-version

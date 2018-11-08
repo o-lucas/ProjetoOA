@@ -220,7 +220,7 @@
 
     function win()
     {
-        alert('!!!');
+        player.anims.play('celebrate', true);
     }
 
     function reset()
@@ -237,13 +237,14 @@
         window.setTimeout(reset, 400);
     }
 
-    function moveUp(nTiles=1)
+    function moveUp(nTiles=0)
     {
-        if(nTiles == 0)
-            nTiles = 1;
-
-        nTiles = Math.abs(nTiles);
-        nTiles = Math.floor(nTiles);
+        if(!isNaturalNumber(nTiles))
+        {
+            alert(`${nTiles} não é ℕ*`);
+            reset();
+            return;
+        }
 
         destinationX = player.x;
         destinationY = player.y - TILE_HEIGHT*nTiles;
@@ -253,13 +254,14 @@
         player.anims.play('up', true);
     }
     
-    function moveDown(nTiles=1)
+    function moveDown(nTiles=0)
     {
-        if(nTiles == 0)
-            nTiles = 1;
-
-        nTiles = Math.abs(nTiles);
-        nTiles = Math.floor(nTiles);
+        if(!isNaturalNumber(nTiles))
+        {
+            alert(`${nTiles} não é ℕ*`);
+            reset();
+            return;
+        }
 
         destinationX = player.x;
         destinationY = player.y + TILE_HEIGHT*nTiles;
@@ -269,13 +271,14 @@
         player.anims.play('down', true);
     }
     
-    function moveLeft(nTiles=1)
+    function moveLeft(nTiles=0)
     {
-        if(nTiles == 0)
-            nTiles = 1;
-
-        nTiles = Math.abs(nTiles);
-        nTiles = Math.floor(nTiles);
+        if(!isNaturalNumber(nTiles))
+        {
+            alert(`${nTiles} não é ℕ*`);
+            reset();
+            return;
+        }
 
         destinationX = player.x - TILE_WIDTH*nTiles;
         destinationY = player.y;
@@ -285,13 +288,14 @@
         player.anims.play('left', true);
     }
     
-    function moveRight(nTiles=1)
+    function moveRight(nTiles=0)
     {
-        if(nTiles == 0)
-            nTiles = 1;
-
-        nTiles = Math.abs(nTiles);
-        nTiles = Math.floor(nTiles);
+        if(!isNaturalNumber(nTiles))
+        {
+            alert(`${nTiles} não é ℕ*`);
+            reset();
+            return;
+        }
 
         destinationX = player.x + TILE_WIDTH*nTiles;
         destinationY = player.y;
@@ -301,6 +305,11 @@
         player.anims.play('right', true);
     }
     
+    function isNaturalNumber(number)
+    {
+        return number > 0 && Math.floor(number) == number;
+    }
+
     function preload ()
     {
         this.load.image('level', '../../assets/icy.png');
@@ -391,6 +400,13 @@
             key: 'down',
             frames: this.anims.generateFrameNumbers('char', { start: 0, end: 2 }),
             frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'celebrate',
+            frames: this.anims.generateFrameNumbers('char', { start: 0, end: 9 }),
+            frameRate: 18,
             repeat: -1
         });
 

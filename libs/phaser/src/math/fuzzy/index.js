@@ -4,7 +4,6 @@
  * @license      {@link https://github.com/photonstorm/phaser/blob/master/license.txt|MIT License}
  */
 
-<<<<<<< HEAD
 /**
  * @namespace Phaser.Math.Fuzzy
  */
@@ -18,18 +17,3 @@ module.exports = {
     LessThan: require('./LessThan')
 
 };
-=======
-/**
- * @namespace Phaser.Math.Fuzzy
- */
-
-module.exports = {
-
-    Ceil: require('./Ceil'),
-    Equal: require('./Equal'),
-    Floor: require('./Floor'),
-    GreaterThan: require('./GreaterThan'),
-    LessThan: require('./LessThan')
-
-};
->>>>>>> phazer-version

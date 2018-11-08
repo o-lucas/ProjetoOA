@@ -152,7 +152,7 @@
             function nextStep()
             {
                 if(interpreter.step())
-                    pidBlockly = window.setTimeout(nextStep, 150);
+                    pidBlockly = window.setTimeout(nextStep, 140);
             }
 
             nextStep();
@@ -251,7 +251,7 @@
 
     function win()
     {
-        alert('!!!');
+        player.anims.play('celebrate', true);
     }
 
     function spawnCoins()
@@ -287,7 +287,7 @@
         });
     }
 	
-    function reset()
+    function reset(msg=undefined)
     {
 		window.clearTimeout(pidBlockly);
 
@@ -302,6 +302,9 @@
         deactivateWalls();
         wallSwitch.anims.play('switchoff', true);
         wallSwitchState = false;
+
+        if(msg !== undefined)
+            alert(msg);
     }
 
 	function onPlayerCollideWithCoin(player, coin)
@@ -335,6 +338,7 @@
     {
         player.anims.play('turn', true);
         player.setVelocity(0, 0);
+        ve
     }
 
     function toggleSwitch()
@@ -368,8 +372,7 @@
 
         if(level[playerYPosInLevelMatrix-1][playerXPosInLevelMatrix] === 4)
         {
-            reset();
-            alert('Você não pode mover para uma parede');
+            reset('Você não pode ser mover para uma parede.');
         }
         else
         {
@@ -391,8 +394,7 @@
 
         if(level[playerYPosInLevelMatrix+1][playerXPosInLevelMatrix] === 4)
         {
-            reset();
-            alert('Você não pode mover para uma parede');
+            reset('Você não pode ser mover para uma parede.');
         }
         else
         {
@@ -414,8 +416,7 @@
 
         if(level[playerYPosInLevelMatrix][playerXPosInLevelMatrix-1] === 4)
         {
-            reset();
-            alert('Você não pode mover para uma parede');
+            reset('Você não pode ser mover para uma parede.');
         }
         else
         {
@@ -437,8 +438,7 @@
 
         if(level[playerYPosInLevelMatrix][playerXPosInLevelMatrix+1] === 4)
         {
-            reset();
-            alert('Você não pode mover para uma parede');
+            reset('Você não pode ser mover para uma parede.');
         }
         else
         {
@@ -588,6 +588,13 @@
             frames: this.anims.generateFrameNumbers('char', { start: 0, end: 1 }),
             frameRate: 10,
             repeat: 3
+        });
+
+        this.anims.create({
+            key: 'celebrate',
+            frames: this.anims.generateFrameNumbers('char', { start: 0, end: 9 }),
+            frameRate: 10,
+            repeat: -1
         });
 
         this.anims.create({

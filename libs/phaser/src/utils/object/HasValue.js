@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /**
  * @author       Richard Davey <rich@photonstorm.com>
  * @copyright    2018 Photon Storm Ltd.
@@ -22,28 +21,3 @@ var HasValue = function (source, key)
 };
 
 module.exports = HasValue;
-=======
-/**
- * @author       Richard Davey <rich@photonstorm.com>
- * @copyright    2018 Photon Storm Ltd.
- * @license      {@link https://github.com/photonstorm/phaser/blob/master/license.txt|MIT License}
- */
-
-/**
- * [description]
- *
- * @function Phaser.Utils.Objects.HasValue
- * @since 3.0.0
- *
- * @param {object} source - [description]
- * @param {string} key - [description]
- *
- * @return {boolean} [description]
- */
-var HasValue = function (source, key)
-{
-    return (source.hasOwnProperty(key));
-};
-
-module.exports = HasValue;
->>>>>>> phazer-version

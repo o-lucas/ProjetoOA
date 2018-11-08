@@ -4,7 +4,6 @@
  * @license      {@link https://github.com/photonstorm/phaser/blob/master/license.txt|MIT License}
  */
 
-<<<<<<< HEAD
 var KeyCodes = require('./KeyCodes');
 
 var KeyMap = {};
@@ -15,15 +14,3 @@ for (var key in KeyCodes)
 }
 
 module.exports = KeyMap;
-=======
-var KeyCodes = require('./KeyCodes');
-
-var KeyMap = {};
-
-for (var key in KeyCodes)
-{
-    KeyMap[KeyCodes[key]] = key;
-}
-
-module.exports = KeyMap;
->>>>>>> phazer-version

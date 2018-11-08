@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /**
  * @author       Richard Davey <rich@photonstorm.com>
  * @copyright    2018 Photon Storm Ltd.
@@ -16,22 +15,3 @@ module.exports = {
     TextureTintPipeline: require('./TextureTintPipeline')
 
 };
-=======
-/**
- * @author       Richard Davey <rich@photonstorm.com>
- * @copyright    2018 Photon Storm Ltd.
- * @license      {@link https://github.com/photonstorm/phaser/blob/master/license.txt|MIT License}
- */
-
-/**
- * @namespace Phaser.Renderer.WebGL.Pipelines
- */
-
-module.exports = {
-
-    BitmapMaskPipeline: require('./BitmapMaskPipeline'),
-    ForwardDiffuseLightPipeline: require('./ForwardDiffuseLightPipeline'),
-    TextureTintPipeline: require('./TextureTintPipeline')
-
-};
->>>>>>> phazer-version

@@ -4,7 +4,6 @@
  * @license      {@link https://github.com/photonstorm/phaser/blob/master/license.txt|MIT License}
  */
 
-<<<<<<< HEAD
 /**
  * @namespace Phaser.Input.Gamepad.Configs
  */
@@ -16,16 +15,3 @@ module.exports = {
     XBOX_360: require('./XBox360_Controller')
 
 };
-=======
-/**
- * @namespace Phaser.Input.Gamepad.Configs
- */
-
-module.exports = {
-
-    DUALSHOCK_4: require('./Sony_PlayStation_DualShock_4'),
-    SNES_USB: require('./SNES_USB_Controller'),
-    XBOX_360: require('./XBox360_Controller')
-
-};
->>>>>>> phazer-version

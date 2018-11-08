@@ -4,7 +4,6 @@
  * @license      {@link https://github.com/photonstorm/phaser/blob/master/license.txt|MIT License}
  */
 
-<<<<<<< HEAD
 /**
  * [description]
  *
@@ -21,21 +20,3 @@ var GetMagnitude = function (point)
 };
 
 module.exports = GetMagnitude;
-=======
-/**
- * [description]
- *
- * @function Phaser.Geom.Point.GetMagnitude
- * @since 3.0.0
- *
- * @param {Phaser.Geom.Point} point - [description]
- *
- * @return {number} [description]
- */
-var GetMagnitude = function (point)
-{
-    return Math.sqrt((point.x * point.x) + (point.y * point.y));
-};
-
-module.exports = GetMagnitude;
->>>>>>> phazer-version
