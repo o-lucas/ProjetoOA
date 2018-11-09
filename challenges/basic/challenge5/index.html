@@ -81,11 +81,17 @@
                     <li class="nav-item">
                         <a class="nav-link" href="tutorial.html">Tutorial</span></a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">Sobre</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contato.html">Contato</a>
+                    </li>
                 </ul>
             </div>
-            <div class="collapse navbar-collapse w-100 justify-content-center">
+            <div class="collapse navbar-collapse w-90 justify-content-center">
                 <a class="navbar-brand" href="../../../level1.html">
-                    Level 1
+                    Nível 1
                 </a>
                 <div class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
@@ -381,7 +387,9 @@
     {
         player.anims.play('celebrate', true);
         if(collectedArchivementCoin)
-            alert('Você desbloqueou uma conquista!');
+            setHelperText('Você desbloqueou uma conquista!');
+        else
+            setHelperText('Parabéns!')
     }
 
     function spawnCoins()

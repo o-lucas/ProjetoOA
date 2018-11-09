@@ -81,11 +81,17 @@
                     <li class="nav-item">
                         <a class="nav-link" href="tutorial.html">Tutorial</span></a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">Sobre</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contato.html">Contato</a>
+                    </li>
                 </ul>
             </div>
-            <div class="collapse navbar-collapse w-100 justify-content-center">
+            <div class="collapse navbar-collapse w-90 justify-content-center">
                 <a class="navbar-brand" href="../../../level1.html">
-                    Level 1
+                    Nível 1
                 </a>
                 <div class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
@@ -310,13 +316,13 @@
     };
 
     var level = [
-        [4, 4, 4, 4, 4, 4, 4, 4],
-        [4, 6, 4, 5, 5, 5, 4, 4],
-        [4, 5, 4, 5, 4, 5, 4, 4],
-        [4, 5, 4, 5, 4, 5, 4, 4],
-        [4, 5, 4, 5, 4, 5, 4, 4],
-        [4, 5, 4, 5, 4, 5, 4, 4],
-        [4, 5, 5, 5, 4, 5, 5, 5],
+        [4, 6, 4, 4, 4, 4, 4, 4],
+        [4, 5, 5, 5, 5, 5, 5, 4],
+        [4, 5, 5, 4, 5, 4, 5, 4],
+        [4, 5, 4, 5, 5, 4, 5, 4],
+        [4, 5, 5, 5, 4, 5, 5, 4],
+        [4, 5, 5, 5, 5, 5, 4, 4],
+        [4, 5, 5, 4, 4, 5, 5, 5],
         [4, 4, 4, 4, 4, 4, 4, 4]
     ];
     const MAP_ROWS = level[0].length;
@@ -332,20 +338,16 @@
     var isSliding = false;
     var destinationX;
     var destinationY;
-    const PLAYER_SPAWN_POINT = {x: 2*32-16, y: 2*32-16};
-    const PLAYER_END_POINT = {x: 8*32-16, y: 7*32-16};
-    const PLAYER_SPEED = 120;
+    const PLAYER_SPAWN_POINT = {x: 2*32-16, y: 1*32-16};
+    const PLAYER_END_POINT = {x: 8*32-16, y: 7*32-16}; const PLAYER_SPEED = 120;
 
     var coins;
     var coinStack = [];
     var coinValue;
     const COINS_POS = [
-        {x: 2*32 - 16, y: 7*32 - 16},
-        {x: 4*32 - 16, y: 7*32 - 16},
-        {x: 4*32 - 16, y: 2*32 - 16},
-        {x: 6*32 - 16, y: 2*32 - 16},
-        {x: 6*32 - 16, y: 7*32 - 16},
-        {x: 8*32 - 16, y: 7*32 - 16},
+        {x: 5*32 - 16, y: 4*32 - 16},
+        {x: 3*32 - 16, y: 6*32 - 16},
+        {x: 6*32 - 16, y: 7*32 - 16}
     ];
     var playerMoney;
     var playerMoneyLabel;
