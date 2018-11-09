@@ -64,6 +64,14 @@
             top: -150%;
             left: 100%;
         }
+
+        .helperButton {
+            background-color: #1e3d5a;
+            color: #FFF;
+            border: 0;
+            padding: 5px;
+            font-size: 1em;
+        }
     </style>
 </head>
 
@@ -352,6 +360,11 @@
     function win()
     {
         player.anims.play('celebrate', true);
+
+        setHelperText(
+            "Parabéns!<hr>"
+            + "<button class=\"helperButton\" onclick=\"window.location.href='../challenge5/'\">Próximo desafio</button>"
+        );
     }
 
     function reset()

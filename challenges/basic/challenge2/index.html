@@ -64,6 +64,14 @@
             top: -150%;
             left: 100%;
         }
+
+        .helperButton {
+            background-color: #1e3d5a;
+            color: #FFF;
+            border: 0;
+            padding: 5px;
+            font-size: 1em;
+        }
     </style>
 </head>
 
@@ -133,7 +141,7 @@
     <div id="gameDiv" style="height: 100%; width: 30%; float: left; position: relative; background-color: white;">
         <div id="game"></div>
         <button id="runGame">Executar</button>
-        <span id="helper-text" style="width: 100%; height: 13%; display: block; background-color: #577277; margin-top: 1rem; color: #FFF; padding: 5px; font-size: 12px;">
+        <span id="helper-text" style="width: 100%; height: 22%; display: block; background-color: #577277; margin-top: 1rem; color: #FFF; padding: 5px; font-size: 12px;">
         </span>
         <svg height="30%" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="helper">
             <image xlink:href="../../../static/img/CorujaAzulMarinho.png" x="100" y="0" height="100%" width="100%">
@@ -336,7 +344,8 @@
             "Parabéns! \"A paciência é uma virtude\" :D<br>"
             + "Dica: Quando você estiver programando e pensar: <br>"
             + "\"Deve ter um jeito mais produtivo de implementar isso\" é<br>"
-            + "porque provavelmente tem!"
+            + "porque provavelmente tem!<br><hr>"
+            + "<button class=\"helperButton\" onclick=\"window.location.href='../challenge3/'\">Próximo desafio</button>"
         );
 
         player.anims.play('celebrate', true);
