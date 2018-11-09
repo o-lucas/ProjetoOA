@@ -109,7 +109,7 @@
             </div>
         </nav>
     </div>
-    <div id="mainDiv" style="height: 100%; width: 50%; float: left;">
+    <div id="mainDiv" style="height: 100%; width: 40%; float: left;">
         <div id="blocklyDiv" style="position: absolute;"></div>
         <xml id="toolbox" style="display: none;">
             <block type="controls_moveUp"></block>
@@ -124,9 +124,19 @@
             <code id="codeToHighlight" class="python"></code>
         </pre>
     </div>
-    <div id="gameDiv">
+    <div id="gameDiv" style="height: 100%; width: 30%; float: left; position: relative; background-color: white;">
         <div id="game"></div>
         <button id="runGame">Executar</button>
+        <span id="helper-text" style="width: 100%; height: 13%; display: block; background-color: #577277; margin-top: 1rem; color: #FFF; padding: 5px; font-size: 12px;">
+        </span>
+        <svg height="30%" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="helper">
+            <image xlink:href="../../../static/img/CorujaAzulMarinho.png" x="100" y="0" height="100%" width="100%">
+                <animate attributeName="href" from="../../../static/img/CorujaAzulMarinho.png" to="../../../static/img/CorujaAzulMarinhoC.png"
+                dur="1s" repeatCount="indefinite" />
+            </image>
+            <circle cx="65%" cy="10%" r="5" stroke="#80a4be" fill="white"/>
+            <circle cx="60%" cy="5%" r="8" stroke="#80a4be" fill="white"/>
+        </svg>
     </div>
 </body>
 
@@ -273,6 +283,7 @@
     const MAP_WIDTH = TILE_WIDTH * MAP_COLS;
     const MAP_HEIGHT = TILE_HEIGHT * MAP_ROWS;
     
+   
     const PLAYER_SPAWN_POINT = {x: 1*32-16, y: 1*32-16};
     const PLAYER_END_POINT = {x: 8*32-16, y: 8*32-16};
     const PLAYER_SPEED = 120;
@@ -303,6 +314,11 @@
     
     var game = new Phaser.Game(config);
 
+    function setHelperText(text)
+    {
+        document.getElementById('helper-text').innerHTML = text;
+    }
+
     function hasPlayerWon()
     {
         return player.x == PLAYER_END_POINT.x && player.y == PLAYER_END_POINT.y;
@@ -310,6 +326,13 @@
 
     function win()
     {
+        setHelperText(
+            "Parabéns! \"A paciência é uma virtude\" :D<br>"
+            + "Dica: Quando você estiver programando e pensar: <br>"
+            + "\"Deve ter um jeito mais produtivo de implementar isso\" é<br>"
+            + "porque provavelmente tem!"
+        );
+
         player.anims.play('celebrate', true);
     }
 
@@ -475,6 +498,13 @@
         });
 
         player.anims.play('turn', true);
+
+        setHelperText(
+            "Um algoritmo é um conjunto de passos à serem seguidos.<br>"
+            + "Por isso, não deve-se pular etapas! Tenha paciência.<br>"
+            + "Mas relaxa que no próximo desafio te ensinarei algo para <br>"
+            + "facilitar a sua vida."
+        );
     }
     
     function update ()

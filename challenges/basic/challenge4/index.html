@@ -110,7 +110,7 @@
         </nav>
     </div>
 
-    <div id="mainDiv" style="height: 100%; width: 50%; float: left;">
+    <div id="mainDiv" style="height: 100%; width: 40%; float: left;">
         <div id="blocklyDiv" style="position: absolute;"></div>
         <xml id="toolbox" style="display: none;">
             <block type="controls_moveUpWithParameter"></block>
@@ -127,9 +127,19 @@
             <code id="codeToHighlight" class="python"></code>
         </pre>
     </div>
-    <div id="gameDiv">
+    <div id="gameDiv" style="height: 100%; width: 30%; float: left; position: relative; background-color: white;">
         <div id="game"></div>
         <button id="runGame">Executar</button>
+        <span id="helper-text" style="width: 100%; height: 13%; display: block; background-color: #577277; margin-top: 1rem; color: #FFF; padding: 5px; font-size: 12px;">
+        </span>
+        <svg height="30%" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="helper">
+            <image xlink:href="../../../static/img/CorujaAzulMarinho.png" x="100" y="0" height="100%" width="100%">
+                <animate attributeName="href" from="../../../static/img/CorujaAzulMarinho.png" to="../../../static/img/CorujaAzulMarinhoC.png"
+                dur="1s" repeatCount="indefinite" />
+            </image>
+            <circle cx="65%" cy="10%" r="5" stroke="#80a4be" fill="white"/>
+            <circle cx="60%" cy="5%" r="8" stroke="#80a4be" fill="white"/>
+        </svg>
     </div>
 </body>
 
@@ -322,6 +332,11 @@
     var destination;
     
     var game = new Phaser.Game(config);
+
+    function setHelperText(text)
+    {
+        document.getElementById('helper-text').innerHTML = text;
+    }
 
     function hasPlayerWon()
     {
@@ -528,6 +543,9 @@
         });
 
         player.anims.play('turn', true);
+        setHelperText(
+            "Parece que o inverno chegou..."
+        );
     }
     
     function update ()
