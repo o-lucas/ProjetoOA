@@ -155,6 +155,9 @@
     </div>
 </body>
 
+<script src="../../../static/js/PointFunctions.js"></script>
+<script src="../../../static/js/TileManager.js"></script>
+
 <script src="../../../libs/phaser/dist/phaser.js"></script>
 
 <script src="../../../libs/blockly/blockly_uncompressed.js"></script>
@@ -289,17 +292,31 @@
             console.log(e); }
     };
 
-    const MAP_ROWS = 8;
-    const MAP_COLS = 8;
+    const level = [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 2, 0, 1, 1, 1, 1, 1, 0],
+        [0, 1, 0, 1, 0, 0, 0, 1, 0],
+        [0, 1, 0, 1, 0, 1, 0, 1, 0],
+        [0, 1, 0, 1, 0, 1, 0, 1, 0],
+        [0, 1, 0, 1, 1, 1, 0, 1, 0],
+        [0, 1, 0, 0, 0, 0, 0, 1, 0],
+        [0, 1, 1, 1, 1, 1, 1, 1, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ];
+
+    const MAP_ROWS = level.length;
+    const MAP_COLS = level[0].length;
     
     const TILE_WIDTH = 32;
     const TILE_HEIGHT = 32;
+
+    let tileManager = new TileManager(level, TILE_WIDTH, TILE_HEIGHT);
     
     const MAP_WIDTH = TILE_WIDTH * MAP_COLS;
     const MAP_HEIGHT = TILE_HEIGHT * MAP_ROWS;
     
-    const PLAYER_SPAWN_POINT = {x: 0+16, y: 0+16};
-    const PLAYER_END_POINT = {x: 5*32-16, y: 3*32-16};
+    const PLAYER_SPAWN_POINT = tileManager.convertXYToTilePoint(2, 2);
+    const PLAYER_END_POINT = tileManager.convertXYToTilePoint(6, 4);
     const PLAYER_SPEED = 120;
         
     var config = {
@@ -506,17 +523,6 @@
     
     function create ()
     {
-        const level = [
-            [2, 0, 1, 1, 1, 1, 1, 1],
-            [1, 0, 1, 0, 0, 0, 0, 1],
-            [1, 0, 1, 0, 1, 1, 0, 1],
-            [1, 0, 1, 0, 0, 1, 0, 1],
-            [1, 0, 1, 0, 0, 1, 0, 1],
-            [1, 0, 1, 1, 1, 1, 0, 1],
-            [1, 0, 0, 0, 0, 0, 0, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1]
-        ];
-    
         const map = this.make.tilemap({
             data: level,
             tileWidth: TILE_WIDTH,
