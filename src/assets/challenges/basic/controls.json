@@ -1,0 +1,102 @@
+[
+    {
+        "id": "1",
+        "controls": [
+            "controls_moveUp",
+            "controls_moveDown",
+            "controls_moveLeft",
+            "controls_moveRight"
+        ]
+    },
+    {
+        "id": "2",
+        "controls": [
+            "controls_moveUp",
+            "controls_moveDown",
+            "controls_moveLeft",
+            "controls_moveRight"
+        ]
+    },
+    {
+        "id": "3",
+        "controls": [
+            "controls_moveUpWithParameter",
+            "controls_moveDownWithParameter",
+            "controls_moveLeftWithParameter",
+            "controls_moveRightWithParameter",
+            "math_number"
+        ]
+    },
+    {
+        "id": "4",
+        "controls": [
+            "controls_moveUpWithParameter",
+            "controls_moveDownWithParameter",
+            "controls_moveLeftWithParameter",
+            "controls_moveRightWithParameter",
+            "math_number"
+        ]
+    },
+    {
+        "id": "5",
+        "controls": [
+            "controls_moveUp",
+            "controls_moveDown",
+            "controls_moveLeft",
+            "controls_moveRight",
+            "controls_toggleSwitch"
+        ]
+    },
+    {
+        "id": "6",
+        "controls": [
+            "controls_moveUpWithParameter",
+            "controls_moveDownWithParameter",
+            "controls_moveLeftWithParameter",
+            "controls_moveRightWithParameter",
+            "math_number",
+            "controls_takeCoin",
+            "logic_if",
+            "logic_coinValue_equals_number"
+        ]
+    },
+    {
+        "id": "7",
+        "controls": [
+        ]
+    },
+    {
+        "id": "8",
+        "controls": [
+        ]
+    },
+    {
+        "id": "9",
+        "controls": [
+        ]
+    },
+    {
+        "id": "10",
+        "controls": [
+            "controls_moveTo",
+            "controls_buy",
+            "controls_hasItem",
+            "logic_if"
+        ]
+    },
+    {
+        "id": "11",
+        "controls": [
+            "controls_moveTo",
+            "controls_buy",
+            "controls_hasItem",
+            "controls_goHome",
+            "logic_if"
+        ]
+    },    {
+        "id": "12",
+        "controls": [
+        ]
+    }
+
+]

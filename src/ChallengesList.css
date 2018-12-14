@@ -1,0 +1,48 @@
+html{
+    background-color: #FFF;
+}
+
+.card>a>button {
+    padding: 5px;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    color: #FFF;
+    border: none;
+    width: 100%;
+}
+
+.card-body {
+    font-size: 12px;
+}
+
+.card{
+    height: 100%;
+}
+
+.level-1 {
+    background-color: #A7DDA7;
+    color: #398689;
+}
+
+button {
+    background-color: #398689;
+}
+
+@keyframes highlight{
+    0%{
+        border-color: #78be97;
+    }
+    50%{
+        border-color: #0b476d;
+    }
+    100%{
+        border-color: #a7dda7;
+    }
+}
+
+#final{
+    animation-name: highlight;
+    animation-iteration-count: infinite;
+    animation-duration: 1.5s;
+    border-width: 2px;
+}

@@ -1,0 +1,74 @@
+[
+  {
+    "id": "1",
+    "title": "Desafio 1",
+    "description": "Grama com movimentação simples.",
+    "background": "Caso vamos manter a ideia de usar uma imagem de fundo. Um link ou base64"
+  },
+  {
+    "id": "2",
+    "title": "Desafio 2",
+    "description": "Grama com movimentação simples, porém percurso elaborado.",
+    "background": "Caso vamos manter a ideia de usar uma imagem de fundo. Um link ou base64"
+  },
+  {
+    "id": "3",
+    "title": "Desafio 3",
+    "description": "Grama com movimentação parametrizada.",
+    "background": "Caso vamos manter a ideia de usar uma imagem de fundo. Um link ou base64"
+  },
+  {
+    "id": "4",
+    "title": "Desafio 4",
+    "description": "Gelo com movimentação parametrizada e labirinto.",
+    "background": "Caso vamos manter a ideia de usar uma imagem de fundo. Um link ou base64"
+  },
+  {
+    "id": "5",
+    "title": "Desafio 5",
+    "description": "Gelo com movimentação parametrizada e coleta de moeda.",
+    "background": "Caso vamos manter a ideia de usar uma imagem de fundo. Um link ou base64"
+  },
+  {
+    "id": "6",
+    "title": "Desafio 6",
+    "description": "Gelo com movimentação parametrizada e coleta de moeda somente com valor específico.",
+    "background": "Caso vamos manter a ideia de usar uma imagem de fundo. Um link ou base64"
+  },
+  {
+    "id": "7",
+    "title": "Desafio 7",
+    "description": "Carro com movimentação parametrizada e semáforo.",
+    "background": "Caso vamos manter a ideia de usar uma imagem de fundo. Um link ou base64"
+  },
+  {
+    "id": "8",
+    "title": "Desafio 8",
+    "description": "Carro com movimentação parametrizada, semáforo e combustível limitado.",
+    "background": "Caso vamos manter a ideia de usar uma imagem de fundo. Um link ou base64"
+  },
+  {
+    "id": "9",
+    "title": "Desafio 9",
+    "description": "Carro com movimentação parametrizada, semáforo e combustível limitado, somente para um caminho mínimo.",
+    "background": "Caso vamos manter a ideia de usar uma imagem de fundo. Um link ou base64"
+  },
+  {
+    "id": "10",
+    "title": "Desafio 10",
+    "description": "Compras na feira para fechar uma lista de itens específicos.",
+    "background": "Caso vamos manter a ideia de usar uma imagem de fundo. Um link ou base64"
+  },
+  {
+    "id": "11",
+    "title": "Desafio 11",
+    "description": "Compras na feira para fechar uma lista com itens de setores específicos gastando o mínimo possível.",
+    "background": "Caso vamos manter a ideia de usar uma imagem de fundo. Um link ou base64"
+  },
+  {
+    "id": "12",
+    "title": "Desafio 12",
+    "description": "Compras na feira para fechar uma lista de itens específicos, porém, gastando no máximo X e o comprador é intolerante a lactose, então ele não pode comprar itens com derivados de leite.",
+    "background": "Caso vamos manter a ideia de usar uma imagem de fundo. Um link ou base64"
+  }
+]

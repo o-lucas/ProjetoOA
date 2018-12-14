@@ -1,0 +1,35 @@
+.redirectToLevels {
+  padding: 5px;
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+  color: #FFF;
+  border: none;
+  width: 100%;
+}
+
+#level-1 {
+  background-color: #A7DDA7;
+  color: #398689;
+}
+
+#level-1>h4 {
+  color: #0b476d;
+}
+
+#level-2 {
+  background-color: #b3daef;
+  color: #447b98;
+}
+
+#level-2>h4 {
+  color: #325A70;
+}
+
+#level-3 {
+  background-color: #F2A03D;
+}
+
+#level-4 {
+  background-color: #402921;
+  color: #bfa393;
+}
