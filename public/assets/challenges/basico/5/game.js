@@ -554,9 +554,10 @@ function create() {
 
   setHelperText(
     'Cuidado, o chão parece ser escorregadio...<br>'
-    + 'Colete no mínimo 4 moedas e vá para o destino.<br>'
-    + 'Mas há uma alavanca ali que só pode ser alternada com no mínimo<br>'
-    + '5 moedas e tem uma conquista neste desafio...'
+    + 'Colete no mínimo 4 moedas e vá para o destino. '
+    + 'Mas há uma alavanca ali que só pode ser alternada com no mínimo '
+    + '5 moedas.<br>' 
+    + 'Há uma conquista neste desafio...'
   );
 }
 

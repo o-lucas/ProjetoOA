@@ -102,7 +102,8 @@ var isSliding = false;
 var destinationX;
 var destinationY;
 const PLAYER_SPAWN_POINT = { x: 2 * 32 - 16, y: 1 * 32 - 16 };
-const PLAYER_END_POINT = { x: 8 * 32 - 16, y: 7 * 32 - 16 }; const PLAYER_SPEED = 120;
+const PLAYER_END_POINT = { x: 8 * 32 - 16, y: 7 * 32 - 16 };
+const PLAYER_SPEED = 120;
 
 var coins;
 var coinStack = [];
@@ -135,6 +136,10 @@ var config = {
 
 var game = new Phaser.Game(config);
 
+function setHelperText(text) {
+  document.getElementById('helper-text').innerHTML = text;
+}
+
 function hasPlayerWon() {
   return (coinsCollected == COINS_POS.length)
     && (player.x == PLAYER_END_POINT.x)
@@ -143,6 +148,10 @@ function hasPlayerWon() {
 
 function win() {
   player.anims.play('celebrate', true);
+
+  setHelperText(
+    "Parabéns!"
+  );
 }
 
 function isPlayerAt(x, y) {
@@ -409,6 +418,14 @@ function create() {
   destination.anims.play('point', true);
   coins.playAnimation('rotate', true);
   player.anims.play('turn', true);
+
+  setHelperText(
+    "Neste desafio você precisa utilizar o bloco \"se\" para resolver o seguinte problema:<br>"
+    + "Você precisa coletar apenas as moedas que tem o valor 10. Mas você não "
+    + "sabe quais são essas moedas.<br><br>"
+    + "Observe que o bloco \"se\" precisa se encaixar com o outro bloco azul: "
+    + "\"Valor da moeda\""
+  );
 }
 
 function update() {

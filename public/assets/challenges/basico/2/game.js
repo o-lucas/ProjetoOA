@@ -118,8 +118,8 @@ function hasPlayerWon() {
 function win() {
   setHelperText(
     "Parabéns! \"A paciência é uma virtude\" :D<br>"
-    + "Dica: Quando você estiver programando e pensar: <br>"
-    + "\"Deve ter um jeito mais produtivo de implementar isso\" é<br>"
+    + "Dica: Quando você estiver programando e pensar: "
+    + "\"Deve ter um jeito mais produtivo de implementar isso\" é "
     + "porque provavelmente tem!<br><hr>"
     + "<button class=\"helperButton\" onclick=\"window.location.href='../challenge3/'\">Próximo desafio</button>"
   );
@@ -272,9 +272,9 @@ function create() {
   player.anims.play('turn', true);
 
   setHelperText(
-    "Um algoritmo é uma sequência de passos à serem seguidos.<br>"
-    + "Por isso, não deve-se pular etapas! Tenha paciência e elabore<br>"
-    + "o seu passo a passo para levar o personagem da origem ao destino.<br>"
+    "Um algoritmo é uma sequência de passos à serem seguidos. "
+    + "Por isso, não deve-se pular etapas! Tenha paciência e elabore "
+    + "o seu passo a passo para levar o personagem da<br> origem ao destino. "
     + "Mas no próximo desafio te ensinarei algo para facilitar a sua vida."
   );
 }
