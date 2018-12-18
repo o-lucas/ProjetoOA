@@ -119,7 +119,7 @@ function hasPlayerWon() {
 function win() {
   player.anims.play('celebrate', true);
   setHelperText(
-    "Parabéns!<hr>"
+    "Parabéns!<br><hr>"
     + "<button class=\"helperButton\" onclick=\"window.location.href='../challenge4/'\">Próximo desafio</button>"
   );
 }
@@ -347,10 +347,10 @@ function create() {
   player.anims.play('turn', true);
 
   setHelperText(
-    "O último desafio talvez tenha sido cansativo.<br>"
-    + "Mas para solucionar ete novo desafio você poderá contar com um<br>"
-    + "recurso bem interessante: um parâmetro que indica a quantidade<br>"
-    + "de vezes que você deseja repetir um movimento. Para isso, você precisará<br>"
+    "O último desafio talvez tenha sido cansativo. "
+    + "Mas para solucionar este novo desafio você poderá contar com um "
+    + "recurso bem interessante: um parâmetro que indica a<br> quantidade "
+    + "de vezes que você deseja repetir um movimento. Para isso, você precisará "
     + "encaixar o bloco do número no bloco do movimento.<br>"
   );
 }

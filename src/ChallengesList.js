@@ -19,7 +19,7 @@ class ChallengesList extends Component {
         this.setState({ levels: BasicDefinitions });
         break;
       default:
-        alert("Sá porra n existe");
+        alert("Página não encontrada.");
     }
   }
 

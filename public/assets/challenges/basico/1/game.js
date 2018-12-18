@@ -278,11 +278,11 @@ function create() {
   player.anims.play('turn', true);
 
   setHelperText(
-    "Animado para o seu primeiro desafio? Então vamos lá! O personagem<br>"
-    + "precisa sair do ponto onde está até o ponto sinalizado pelo quadro<br>"
-    + "amarelo. Para isso, você precisa movimentá-lo até lá através do<br>"
-    + "encadeamento correto dos blocos. Clique sobre os blocos e<br>"
-    + "arraste-os até o segundoo quadro para resolver esta questão.<br>"
+    "Animado para o seu primeiro desafio? Então vamos lá! O personagem "
+    + "precisa sair do ponto onde está até o ponto sinalizado pelo quadro "
+    + "amarelo. Para isso, você precisa <br>movimentá-lo até lá através do "
+    + "encadeamento correto dos blocos. Clique sobre os blocos e "
+    + "arraste-os até o segundo quadro para resolver esta questão. "
     + "Fácil, não?"
   );
 }
