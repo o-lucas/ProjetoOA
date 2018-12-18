@@ -1,0 +1,28 @@
+.Landing{
+    background-color: #398689;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.intro {
+    position: absolute;
+    top: 20%;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    color: #FFF;
+}
+
+.intro>pre{
+    width: 10%;
+    height: 100%;
+    word-wrap: break-word;
+}
+
+#intro-start{
+    background-color: #21494b;
+    color: #FFF;
+    border: 0;
+    padding: 5px;
+}

@@ -5,18 +5,19 @@ import './index.css';
 import App from './App';
 import Challenge from './Challenge';
 import ChallengesList from './ChallengesList';
+import Landing from './Landing';
+import Login from './Login';
 import * as serviceWorker from './serviceWorker';
 
 
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
-      <Route path="/" exact={true} component={App} />
+      <Route path="/" exact={true} component={Landing} />
       <Route path="/desafios/:type/:id" component={Challenge} />
       <Route path="/desafios/:type" component={ChallengesList} />
-      <Route path="/desafios">
-        <Redirect to="/"></Redirect>
-      </Route>
+      <Route path="/desafios" component={App} />
+      <Route path="/login" component={Login} />
     </Switch>
   </BrowserRouter>,
   document.getElementById('root')

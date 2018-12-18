@@ -46,3 +46,7 @@ button {
     animation-duration: 1.5s;
     border-width: 2px;
 }
+
+.tooltip > .tooltip-inner > img{
+    width: 100%;
+}
