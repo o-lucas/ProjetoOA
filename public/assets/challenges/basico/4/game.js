@@ -137,7 +137,10 @@ function win() {
 
   setHelperText(
     "Parabéns!<hr>"
-    + "<button class=\"helperButton\" onclick=\"window.location.href='../challenge5/'\">Próximo desafio</button>"
+    + "<button class=\"helperButton\"" 
+    +          "onclick=\"window.location.href='/desafios/basico/5'\">"
+    +   "Próximo desafio"
+    + "</button>"
   );
 }
 

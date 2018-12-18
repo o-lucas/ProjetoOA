@@ -162,7 +162,10 @@ function win() {
     "Parabéns!<br>"
     + ((collectedArchivementCoin) ? "Você desbloqueou uma conquista!<br>" : "")
     + "<hr>"
-    + "<button class=\"helperButton\" onclick=\"window.location.href='../challenge6/'\">Próximo desafio</button>"
+    + "<button class=\"helperButton\""
+    +          "onclick=\"window.location.href='/desafios/basico/6'\">"
+    +   "Próximo desafio"
+    + "</button>"
   );
 }
 

@@ -120,7 +120,10 @@ function win() {
   player.anims.play('celebrate', true);
   setHelperText(
     "Parabéns!<br><hr>"
-    + "<button class=\"helperButton\" onclick=\"window.location.href='../challenge4/'\">Próximo desafio</button>"
+    + "<button class=\"helperButton\""
+    +          "onclick=\"window.location.href='/desafios/basico/4'\">"
+    +   "Próximo desafio"
+    + "</button>"
   );
 }
 

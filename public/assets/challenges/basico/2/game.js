@@ -121,7 +121,10 @@ function win() {
     + "Dica: Quando você estiver programando e pensar: "
     + "\"Deve ter um jeito mais produtivo de implementar isso\" é "
     + "porque provavelmente tem!<br><hr>"
-    + "<button class=\"helperButton\" onclick=\"window.location.href='../challenge3/'\">Próximo desafio</button>"
+    + "<button class=\"helperButton\""
+    +          "onclick=\"window.location.href='/desafios/basico/3'\">"
+    +   "Próximo desafio"
+    + "</button>"
   );
 
   player.anims.play('celebrate', true);
