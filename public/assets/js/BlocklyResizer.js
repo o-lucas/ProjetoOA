@@ -19,7 +19,7 @@ var onresize = function (e) {
     } while (element);
     // Position blocklyDiv over blocklyArea.
     blocklyDiv.style.left = x + 'px';
-    blocklyDiv.style.top = y + 'px';
+    //blocklyDiv.style.top = y + 'px';
     blocklyDiv.style.width = blocklyArea.offsetWidth + 'px';
     blocklyDiv.style.height = blocklyArea.offsetHeight + 'px';
     Blockly.svgResize(workspace);

@@ -56,8 +56,10 @@ class Navbar extends Component {
             </div>
 
             {this.state.level.length > 0 ?
-              <div className="collapse navbar-collapse w-90 justify-content-center">
-                <Link to={"/desafios/" + this.state.level.type}>{"Nível " + this.state.level.type}</Link>
+              <div className="collapse navbar-collapse w-75 justify-content-center">
+                <a href={"/desafios/" + this.state.level.type} style={{textDecoration: 'none', color: 'white'}}>
+                  <i class="fas fa-flag"></i> {"Nível " + this.state.level.type}
+                </a>
                 <div className="nav-item dropdown">
                   <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
                     Desafio {this.state.level.id}
@@ -68,18 +70,6 @@ class Navbar extends Component {
                         <a href={"/desafios/" + this.state.level.type + "/" + (index + 1)} className="dropdown-item">{index + 1}</a>
                       </li>;
                     })}
-                    {/* <li><a class="dropdown-item current" href="../challenge1/">1</a></li>
-                        <li><a class="dropdown-item" href="../challenge2/">2</a></li>
-                        <li><a class="dropdown-item" href="../challenge3/">3</a></li>
-                        <li><a class="dropdown-item" href="../challenge4/">4</a></li>
-                        <li><a class="dropdown-item" href="../challenge5/">5</a></li>
-                        <li><a class="dropdown-item" href="../challenge6/">6</a></li>
-                        <li><a class="dropdown-item" href="#">7</a></li>
-                        <li><a class="dropdown-item" href="#">8</a></li>
-                        <li><a class="dropdown-item" href="#">9</a></li>
-                        <li><a class="dropdown-item" href="#">10</a></li>
-                        <li><a class="dropdown-item" href="../challenge11/">11</a></li>
-                        <li><a class="dropdown-item" href="#">12</a></li> */}
                   </ul>
                 </div>
               </div>

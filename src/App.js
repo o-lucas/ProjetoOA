@@ -13,11 +13,11 @@ class App extends Component {
             <div className="col-sm">
               <div className="card" id="level-1">
                 <div className="card-body">
-                  <h4>Nível 1</h4>
+                  <h4>Nível básico</h4>
                   <hr />
-                  <div>  Descrição nível 1  </div>
+                  <div>  Descrição nível básico  </div>
                 </div>
-                <Link to="/desafios/basico"><button style={{ backgroundColor: "#398689" }} className="redirectToLevels">Continuar →</button></Link>
+                <a href="/desafios/basico"><button style={{ backgroundColor: "#398689" }} className="redirectToLevels">Continuar →</button></a>
               </div>
             </div>
             <div className="col-sm">

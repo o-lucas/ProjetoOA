@@ -10,6 +10,7 @@ class ChallengesList extends Component {
     this.state = {
       levels: []
     };
+    this.tooltip = React.createRef();
   }
 
   componentWillMount() {
@@ -28,16 +29,19 @@ class ChallengesList extends Component {
         <Navbar></Navbar>
         <div className="container">
           {this.state.levels.map((_, index) => {
-            if (index % 5 === 0) {
-              var list = this.state.levels.slice(index, index + 5);
+            if (index % 4 === 0) {
+              var list = this.state.levels.slice(index, index + 4);
               return (
-                <div className="row py-3">
+                <div className="row py-3 justify-content-center" key={index}>
                   {list.map((data) => {
                     return (
-                      <div className="col-sm">
+                      <div className={data.id === "final" ? "col-sm-6" : "col-sm"} key={data.id}>
                         <div className="card level-1">
                           <div className="card-body">
-                            <h5>{data.title}</h5>
+                            <div className="card-title">
+                              <h5>{data.title} <i className="fas fa-search float-right" id={data.id} ref={this.tooltip} data-toggle="tooltip" data-html="true" title={`<img src="${data.background}" />`}></i></h5>
+                              <small className="text-right"><i className="fas fa-star"></i> {data.score}</small>
+                            </div>
                             <hr />
                             <div>{data.description}</div>
                           </div>

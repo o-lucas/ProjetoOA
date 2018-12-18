@@ -4,7 +4,7 @@ import BasicControls from './assets/challenges/basic/controls.json';
 import './Challenge.css';
 
 class Challenge extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       controls: []
@@ -17,20 +17,20 @@ class Challenge extends Component {
     const gameScript = document.createElement('script');
     gameScript.async = false;
     gameScript.src = `/assets/challenges/${type}/${id}/game.js`;
-    
-    switch(type){
+
+    switch (type) {
       case "basico":
-        this.setState ({ controls: BasicControls[id - 1]. controls });
+        this.setState({ controls: BasicControls[id - 1].controls });
         break;
-      default: 
+      default:
         console.log("sei lá mano");
     }
 
     const blocklyResizer = document.createElement('script');
     blocklyResizer.async = false;
     blocklyResizer.src = '/assets/js/BlocklyResizer.js';
-    
-    window.onload = function (){
+
+    window.onload = function () {
       //document.body.appendChild(controlsScript);
       document.body.appendChild(blocklyResizer);
       document.body.appendChild(gameScript);
@@ -39,30 +39,31 @@ class Challenge extends Component {
 
   render() {
     return (
-      <div className="Challenge" style={{height: '100%'}}>
+      <div className="Challenge">
         <Navbar></Navbar>
-        
-        <div id="helper">
-          <span id="helper-text">Helper</span>
-        </div>
-        <div id="mainDiv">
-          <div id="blocklyDiv" style={{ position: 'absolute' }}></div>
-          <xml id="toolbox" style={{ display: 'none' }}>
-            {this.state.controls.map((control) => {
-              return <block type={control}></block>
-            })}
-          </xml>
-        </div>
+        <div style={{ width: '100%', height: '100%', position: 'absolute' }}>
+          <div id="helper">
+            <span id="helper-text">Helper</span>
+          </div>
+          <div id="mainDiv">
+            <div id="blocklyDiv" style={{ position: 'relative' }}></div>
+            <xml id="toolbox" style={{ display: 'none' }}>
+              {this.state.controls.map((control) => {
+                return <block type={control}></block>
+              })}
+            </xml>
+          </div>
 
-        <div id="codeDiv">
-          <pre>
-            <code id="codeToHighlight" className="python"></code>
-          </pre>
-        </div>
+          <div id="codeDiv">
+            <pre>
+              <code id="codeToHighlight" className="python"></code>
+            </pre>
+          </div>
 
-        <div id="gameDiv">
-          <div id="game"></div>
-          <button id="runGame">Executar</button>
+          <div id="gameDiv">
+            <div id="game"></div>
+            <button id="runGame">Executar</button>
+          </div>
         </div>
       </div>
     );
